@@ -1,0 +1,2549 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+	<title></title>
+	<meta name="generator" content="LibreOffice 26.2.3.2 (Linux)"/>
+	<meta name="created" content="00:00:00"/>
+	<meta name="changed" content="00:00:00"/>
+	<style type="text/css">
+		@page { size: 8.27in 11.69in; margin: 0.79in }
+		p { margin-bottom: 0.1in; line-height: 115%; background: transparent }
+		pre { font-size: 10pt; font-family: "Liberation Mono", monospace; background: transparent }
+	</style>
+</head>
+<body lang="en-US" link="#000080" vlink="#800000" dir="ltr"><pre>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;UTF-8&quot;&gt;
+&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover&quot;&gt;
+&lt;meta name=&quot;theme-color&quot; content=&quot;#fbfaf7&quot;&gt;
+&lt;meta name=&quot;apple-mobile-web-app-capable&quot; content=&quot;yes&quot;&gt;
+&lt;meta name=&quot;apple-mobile-web-app-title&quot; content=&quot;Petal&quot;&gt;
+&lt;meta name=&quot;apple-mobile-web-app-status-bar-style&quot; content=&quot;default&quot;&gt;
+&lt;title&gt;Petal - Brainstorm &amp; Planner&lt;/title&gt;
+&lt;style&gt;
+:root {
+  --paper: #fbfaf7;
+  --surface: #ffffff;
+  --surface-soft: #f4f0ec;
+  --ink: #211b24;
+  --ink-soft: #6f6574;
+  --ink-faint: #a8a0aa;
+  --line: rgba(33, 27, 36, .10);
+  --line-strong: rgba(33, 27, 36, .18);
+  --rose: #e9a5b8;
+  --rose-soft: #faedf1;
+  --plum: #8a6bc0;
+  --plum-soft: #f0ebfa;
+  --sage: #8cb99e;
+  --sage-soft: #edf6f0;
+  --sky: #79aad1;
+  --sky-soft: #edf6fc;
+  --honey: #d8a35a;
+  --honey-soft: #fbf3e5;
+  --clay: #d98772;
+  --clay-soft: #fbefeb;
+  --accent: #7256ad;
+  --danger: #c75767;
+  --shadow: 0 12px 36px rgba(36, 27, 43, .10);
+  --shadow-soft: 0 5px 18px rgba(36, 27, 43, .08);
+  --r: 8px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+}
+
+body {
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;
+  color: var(--ink);
+  background: var(--paper);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+button, input, textarea, select {
+  font: inherit;
+}
+
+button {
+  border: 0;
+  cursor: pointer;
+}
+
+.app {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+
+.topbar {
+  height: 62px;
+  padding: 0 max(14px, env(safe-area-inset-left)) 0 max(14px, env(safe-area-inset-right));
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: rgba(255, 255, 255, .92);
+  border-bottom: 1px solid var(--line);
+  backdrop-filter: blur(18px);
+  z-index: 40;
+}
+
+.brand {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-weight: 740;
+  letter-spacing: .01em;
+}
+
+.brand-mark {
+  width: 24px;
+  height: 24px;
+  border-radius: 8px;
+  background:
+    radial-gradient(circle at 35% 35%, #fff 0 12%, transparent 13%),
+    linear-gradient(135deg, var(--rose), var(--plum) 58%, var(--sky));
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.55), 0 5px 14px rgba(114,86,173,.22);
+  flex: 0 0 auto;
+}
+
+.brand small {
+  display: block;
+  color: var(--ink-faint);
+  font-weight: 620;
+  font-size: 10px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+
+.tabs {
+  display: flex;
+  gap: 4px;
+  padding: 4px;
+  background: var(--surface-soft);
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  margin-left: auto;
+}
+
+.tab {
+  height: 34px;
+  padding: 0 14px;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--ink-soft);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.tab.active {
+  background: var(--surface);
+  color: var(--ink);
+  box-shadow: var(--shadow-soft);
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  position: relative;
+}
+
+.icon-btn, .soft-btn, .dark-btn {
+  height: 38px;
+  border-radius: var(--r);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  white-space: nowrap;
+  transition: transform .16s ease, border-color .16s ease, background .16s ease;
+}
+
+.icon-btn {
+  width: 38px;
+  color: var(--ink-soft);
+  background: var(--surface);
+  border: 1px solid var(--line);
+}
+
+.soft-btn {
+  padding: 0 12px;
+  color: var(--ink);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  font-weight: 720;
+  font-size: 13px;
+}
+
+.dark-btn {
+  padding: 0 14px;
+  color: #fff;
+  background: var(--ink);
+  font-weight: 760;
+  font-size: 13px;
+}
+
+.icon-btn:hover, .soft-btn:hover, .dark-btn:hover {
+  transform: translateY(-1px);
+}
+
+.transfer-menu {
+  position: absolute;
+  right: 48px;
+  top: 46px;
+  width: 178px;
+  padding: 6px;
+  display: none;
+  flex-direction: column;
+  gap: 4px;
+  background: rgba(255,255,255,.96);
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  box-shadow: var(--shadow);
+  z-index: 70;
+}
+
+.transfer-menu.show {
+  display: flex;
+}
+
+.menu-item {
+  min-height: 38px;
+  padding: 0 10px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  background: transparent;
+  color: var(--ink);
+  font-size: 13px;
+  font-weight: 760;
+  text-align: left;
+}
+
+.menu-item:hover {
+  background: var(--surface-soft);
+}
+
+.view {
+  flex: 1;
+  min-height: 0;
+  display: none;
+}
+
+.view.active {
+  display: flex;
+}
+
+.brainstorm {
+  position: relative;
+  min-width: 0;
+}
+
+.toolrail {
+  width: 58px;
+  padding: 10px 8px;
+  background: rgba(255,255,255,.88);
+  border-right: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  z-index: 25;
+}
+
+.tool {
+  width: 42px;
+  height: 42px;
+  color: var(--ink-soft);
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--r);
+  display: grid;
+  place-items: center;
+}
+
+.tool.active, .tool:hover {
+  color: var(--accent);
+  background: var(--plum-soft);
+  border-color: rgba(114,86,173,.18);
+}
+
+.tool-sep {
+  height: 1px;
+  width: 28px;
+  background: var(--line);
+  margin: 4px auto;
+}
+
+.canvas-shell {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  touch-action: none;
+  background:
+    radial-gradient(circle, rgba(33,27,36,.085) 1px, transparent 1.5px) 0 0 / 26px 26px,
+    linear-gradient(180deg, #fbfaf7, #f7f3ef);
+}
+
+.canvas-shell.hide-grid {
+  background: linear-gradient(180deg, #fbfaf7, #f7f3ef);
+}
+
+.connection-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+  overflow: visible;
+}
+
+.canvas-world {
+  position: absolute;
+  inset: 0;
+  z-index: 6;
+  transform-origin: 0 0;
+}
+
+.node {
+  position: absolute;
+  min-width: 140px;
+  min-height: 80px;
+  height: auto;
+  border: 1.5px solid var(--node-line);
+  background: var(--node-bg);
+  color: var(--node-text);
+  border-radius: var(--node-radius);
+  box-shadow: 0 4px 14px rgba(40, 28, 45, .06);
+  user-select: none;
+  cursor: grab;
+  display: flex;
+  flex-direction: column;
+  overflow: visible;
+  padding-bottom: 8px;
+}
+
+.node:active {
+  cursor: grabbing;
+}
+
+.node.selected {
+  box-shadow: 0 0 0 3px rgba(114,86,173,.24), var(--shadow);
+  z-index: 100 !important;
+}
+
+.node.main {
+  border-width: 2px;
+  box-shadow: 0 10px 34px rgba(114,86,173,.17);
+}
+
+.node.question .node-title::before {
+  content: &quot;?&quot;;
+  display: inline-grid;
+  place-items: center;
+  width: 18px;
+  height: 18px;
+  margin-right: 6px;
+  border-radius: 50%;
+  background: rgba(255,255,255,.66);
+  font-size: 12px;
+}
+
+.node.task .node-title::before {
+  content: &quot;&quot;;
+  width: 14px;
+  height: 14px;
+  margin-right: 7px;
+  display: inline-block;
+  border-radius: 4px;
+  border: 1.8px solid currentColor;
+  opacity: .7;
+}
+
+.node-title {
+  display: flex;
+  align-items: center;
+  padding: 13px 14px 4px;
+  font-size: 14px;
+  font-weight: 790;
+  line-height: 1.2;
+  word-break: break-word;
+}
+
+.node-note {
+  padding: 4px 14px 6px;
+  color: color-mix(in srgb, currentColor 72%, transparent);
+  font-size: 12px;
+  line-height: 1.45;
+  word-break: break-word;
+  white-space: pre-wrap;
+  flex: 1;
+}
+
+.port {
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: transparent;
+  display: grid;
+  place-items: center;
+  opacity: .85;
+  z-index: 30;
+}
+
+.port::after {
+  content: &quot;&quot;;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: 2px solid #fff;
+  box-shadow: 0 0 0 1px rgba(114,86,173,.24);
+}
+
+.port.top { top: -13px; left: calc(50% - 12px); }
+.port.right { right: -13px; top: calc(50% - 12px); }
+.port.bottom { bottom: -13px; left: calc(50% - 12px); }
+.port.left { left: -13px; top: calc(50% - 12px); }
+
+.port:hover::after, .port.armed::after {
+  transform: scale(1.28);
+  background: var(--rose);
+}
+
+.resize-corner {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 24px;
+  height: 24px;
+  border-radius: 0 0 var(--node-radius) 0;
+  cursor: nwse-resize;
+  opacity: .48;
+  z-index: 10;
+}
+
+.resize-corner::after {
+  content: &quot;&quot;;
+  position: absolute;
+  right: 6px;
+  bottom: 6px;
+  width: 6px;
+  height: 6px;
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+}
+
+.floating-bar {
+  position: absolute;
+  left: 74px;
+  bottom: 18px;
+  right: 330px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  pointer-events: none;
+  z-index: 24;
+}
+
+.chip-row, .zoom {
+  display: inline-flex;
+  gap: 6px;
+  align-items: center;
+  background: rgba(255,255,255,.92);
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  padding: 5px;
+  box-shadow: var(--shadow-soft);
+  pointer-events: auto;
+}
+
+.chip {
+  height: 30px;
+  padding: 0 10px;
+  border-radius: 6px;
+  color: var(--ink-soft);
+  background: transparent;
+  font-size: 12px;
+  font-weight: 750;
+}
+
+.chip.active {
+  color: var(--accent);
+  background: var(--plum-soft);
+}
+
+.zoom button {
+  width: 30px;
+  height: 30px;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--ink-soft);
+  font-size: 18px;
+}
+
+.zoom span {
+  min-width: 48px;
+  text-align: center;
+  color: var(--ink-soft);
+  font-size: 12px;
+  font-weight: 760;
+}
+
+.inspector {
+  width: 320px;
+  background: rgba(255,255,255,.94);
+  border-left: 1px solid var(--line);
+  z-index: 26;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.panel-head {
+  padding: 16px;
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.panel-title {
+  font-weight: 820;
+  flex: 1;
+}
+
+.panel-note {
+  color: var(--ink-faint);
+  font-size: 12px;
+  line-height: 1.35;
+}
+
+.panel-body {
+  padding: 16px;
+  overflow: auto;
+}
+
+.field {
+  margin-bottom: 14px;
+}
+
+.label {
+  display: block;
+  margin-bottom: 7px;
+  color: var(--ink-soft);
+  font-size: 11px;
+  font-weight: 820;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.input, .select, .textarea {
+  width: 100%;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--r);
+  background: #fff;
+  color: var(--ink);
+  outline: none;
+}
+
+.input, .select {
+  height: 42px;
+  padding: 0 11px;
+}
+
+.textarea {
+  min-height: 82px;
+  padding: 10px 11px;
+  resize: vertical;
+}
+
+.input:focus, .select:focus, .textarea:focus {
+  border-color: rgba(114,86,173,.55);
+  box-shadow: 0 0 0 3px rgba(114,86,173,.12);
+}
+
+.seg {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 5px;
+  padding: 4px;
+  background: var(--surface-soft);
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+}
+
+.seg button {
+  min-height: 34px;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--ink-soft);
+  font-size: 12px;
+  font-weight: 780;
+}
+
+.seg button.active {
+  background: #fff;
+  color: var(--ink);
+  box-shadow: var(--shadow-soft);
+}
+
+.swatches {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 7px;
+}
+
+.swatch {
+  height: 32px;
+  border-radius: var(--r);
+  border: 2px solid transparent;
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,.07);
+}
+
+.swatch.active {
+  border-color: var(--ink);
+}
+
+.range-line {
+  display: grid;
+  grid-template-columns: 1fr 58px;
+  gap: 9px;
+  align-items: center;
+}
+
+input[type=&quot;range&quot;] {
+  accent-color: var(--accent);
+}
+
+.panel-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.panel-actions .wide {
+  grid-column: 1 / -1;
+}
+
+.danger-btn {
+  height: 38px;
+  border-radius: var(--r);
+  color: var(--danger);
+  background: var(--rose-soft);
+  border: 1px solid rgba(199,87,103,.24);
+  font-weight: 780;
+}
+
+.hint {
+  padding: 12px;
+  border: 1px dashed var(--line-strong);
+  border-radius: var(--r);
+  color: var(--ink-soft);
+  background: rgba(255,255,255,.56);
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.planner {
+  flex-direction: column;
+  min-height: 0;
+}
+
+.planner-top {
+  height: 58px;
+  padding: 0 18px;
+  border-bottom: 1px solid var(--line);
+  background: rgba(255,255,255,.9);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.month-title {
+  min-width: 180px;
+  font-size: 17px;
+  font-weight: 820;
+}
+
+.planner-body {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+}
+
+.planner-scroll {
+  flex: 1;
+  min-width: 0;
+  overflow: auto;
+  padding: 18px;
+}
+
+.side-panel {
+  width: 270px;
+  border-left: 1px solid var(--line);
+  background: rgba(255,255,255,.8);
+  padding: 16px;
+  overflow: auto;
+}
+
+.week-grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(138px, 1fr));
+  gap: 10px;
+}
+
+.day {
+  min-height: 330px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  overflow: hidden;
+}
+
+.day.today {
+  border-color: rgba(114,86,173,.42);
+  box-shadow: 0 0 0 2px rgba(114,86,173,.12);
+}
+
+.day-head {
+  padding: 12px;
+  border-bottom: 1px solid var(--line);
+}
+
+.day-name {
+  color: var(--ink-faint);
+  font-size: 10px;
+  font-weight: 820;
+  text-transform: uppercase;
+  letter-spacing: .12em;
+}
+
+.day-num {
+  margin-top: 4px;
+  font-size: 28px;
+  font-weight: 760;
+}
+
+.task-list {
+  padding: 9px;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.task {
+  min-height: 38px;
+  padding: 8px 9px;
+  border-radius: var(--r);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--task-bg);
+  color: var(--task-text);
+  border: 1px solid rgba(0,0,0,.04);
+  font-size: 12px;
+  font-weight: 720;
+}
+
+.task.done .task-name {
+  text-decoration: line-through;
+  opacity: .55;
+}
+
+.check {
+  width: 17px;
+  height: 17px;
+  border-radius: 5px;
+  border: 1.5px solid currentColor;
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+}
+
+.task.done .check {
+  background: currentColor;
+}
+
+.task.done .check::after {
+  content: &quot;&quot;;
+  width: 7px;
+  height: 4px;
+  border-left: 1.6px solid #fff;
+  border-bottom: 1.6px solid #fff;
+  transform: rotate(-45deg) translateY(-1px);
+}
+
+.task-name {
+  flex: 1;
+  min-width: 0;
+  word-break: break-word;
+}
+
+.task-del {
+  color: currentColor;
+  opacity: .55;
+  background: transparent;
+  width: 24px;
+  height: 24px;
+}
+
+.day-add {
+  min-height: 34px;
+  border: 1px dashed var(--line-strong);
+  border-radius: var(--r);
+  background: transparent;
+  color: var(--ink-soft);
+  font-size: 12px;
+  font-weight: 740;
+}
+
+.month-grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(88px, 1fr));
+  gap: 8px;
+}
+
+.month-label {
+  text-align: center;
+  color: var(--ink-faint);
+  font-size: 10px;
+  font-weight: 820;
+  letter-spacing: .1em;
+}
+
+.month-cell {
+  min-height: 92px;
+  padding: 9px;
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  background: var(--surface);
+}
+
+.month-cell.today {
+  border-color: rgba(114,86,173,.42);
+  background: var(--plum-soft);
+}
+
+.month-cell.outside {
+  opacity: .35;
+}
+
+.month-date {
+  font-size: 12px;
+  font-weight: 820;
+  color: var(--ink-soft);
+}
+
+.dots {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 8px;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 3px;
+  background: var(--dot);
+}
+
+.agenda {
+  max-width: 780px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.agenda-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  overflow: hidden;
+}
+
+.agenda-date {
+  padding: 13px 15px;
+  border-bottom: 1px solid var(--line);
+  font-weight: 820;
+}
+
+.mini-cal {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+}
+
+.mini-cal div {
+  min-height: 28px;
+  display: grid;
+  place-items: center;
+  border-radius: 6px;
+  font-size: 11px;
+  color: var(--ink-soft);
+}
+
+.mini-cal .mini-label {
+  min-height: 20px;
+  color: var(--ink-faint);
+  font-size: 9px;
+  font-weight: 820;
+}
+
+.mini-cal .today {
+  color: #fff;
+  background: var(--accent);
+}
+
+.progress-track {
+  height: 8px;
+  background: var(--surface-soft);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  width: 0;
+  background: linear-gradient(90deg, var(--plum), var(--rose), var(--sage));
+  border-radius: inherit;
+}
+
+.modal-shade {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  display: none;
+  place-items: center;
+  padding: 18px;
+  background: rgba(33,27,36,.34);
+  backdrop-filter: blur(8px);
+}
+
+.modal-shade.show {
+  display: grid;
+}
+
+.modal {
+  width: min(460px, 100%);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  box-shadow: var(--shadow);
+  padding: 18px;
+}
+
+.modal h2 {
+  font-size: 18px;
+  margin-bottom: 14px;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 18px;
+}
+
+.modal-actions button {
+  flex: 1;
+}
+
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 18px;
+  transform: translateX(-50%) translateY(20px);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 100;
+  padding: 10px 13px;
+  border-radius: var(--r);
+  color: #fff;
+  background: rgba(33,27,36,.92);
+  font-size: 13px;
+  font-weight: 720;
+  transition: opacity .2s ease, transform .2s ease;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+.mobile-sheet-toggle {
+  display: none;
+}
+
+/* Wizard Modal Custom Segmented buttons */
+.wizard-seg {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+  margin-bottom: 14px;
+}
+.wizard-seg button {
+  height: 44px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--r);
+  background: #fff;
+  font-weight: 750;
+  font-size: 13px;
+  color: var(--ink-soft);
+}
+.wizard-seg button.active {
+  background: var(--plum-soft);
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+@media (max-width: 900px) {
+  .topbar {
+    height: auto;
+    min-height: 60px;
+    flex-wrap: wrap;
+    padding-top: max(8px, env(safe-area-inset-top));
+    padding-bottom: 8px;
+  }
+
+  .brand {
+    flex: 1;
+  }
+
+  .tabs {
+    order: 3;
+    width: 100%;
+  }
+
+  .tab {
+    flex: 1;
+  }
+
+  .hide-mobile {
+    display: none;
+  }
+
+  .toolrail {
+    position: absolute;
+    left: 8px;
+    top: 10px;
+    width: auto;
+    padding: 5px;
+    flex-direction: row;
+    border: 1px solid var(--line);
+    border-radius: var(--r);
+    box-shadow: var(--shadow-soft);
+  }
+
+  .tool {
+    width: 40px;
+    height: 40px;
+  }
+
+  .tool-sep {
+    display: none;
+  }
+
+  .inspector {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    max-height: 75dvh;
+    border-left: 0;
+    border-top: 1px solid var(--line);
+    border-radius: 14px 14px 0 0;
+    transform: translateY(100%);
+    transition: transform .24s cubic-bezier(0.1, 0.76, 0.55, 0.94);
+    box-shadow: 0 -14px 38px rgba(33,27,36,.14);
+  }
+
+  .inspector.open {
+    transform: translateY(0);
+  }
+
+  .panel-head {
+    min-height: 58px;
+    cursor: pointer;
+  }
+
+  .mobile-sheet-toggle {
+    display: inline-flex;
+  }
+
+  .floating-bar {
+    left: 8px;
+    right: 8px;
+    bottom: 24px;
+    align-items: flex-end;
+  }
+
+  .chip-row {
+    display: none;
+  }
+
+  .planner-body {
+    display: block;
+    overflow: auto;
+  }
+
+  .planner-scroll {
+    overflow: visible;
+    padding: 12px;
+  }
+
+  .side-panel {
+    display: none;
+  }
+
+  .planner-top {
+    height: auto;
+    min-height: 58px;
+    flex-wrap: wrap;
+    padding: 10px 12px;
+  }
+
+  .month-title {
+    flex: 1;
+    min-width: 130px;
+  }
+
+  .week-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .day {
+    min-height: auto;
+  }
+
+  .month-grid {
+    grid-template-columns: repeat(7, minmax(38px, 1fr));
+    gap: 4px;
+  }
+
+  .month-cell {
+    min-height: 54px;
+    padding: 6px;
+  }
+
+  .month-label {
+    font-size: 9px;
+  }
+}
+
+@media (max-width: 520px) {
+  .actions {
+    gap: 6px;
+  }
+
+  .dark-btn, .soft-btn {
+    padding: 0 10px;
+  }
+
+  .brand small {
+    display: none;
+  }
+
+  .swatches {
+    grid-template-columns: repeat(6, 1fr);
+  }
+}
+&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;div class=&quot;app&quot;&gt;
+  &lt;header class=&quot;topbar&quot;&gt;
+    &lt;div class=&quot;brand&quot; aria-label=&quot;Petal&quot;&gt;
+      &lt;div class=&quot;brand-mark&quot;&gt;&lt;/div&gt;
+      &lt;div&gt;
+        &lt;div&gt;Petal&lt;/div&gt;
+        &lt;small&gt;Brainstorm &amp; Planner&lt;/small&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;nav class=&quot;tabs&quot; aria-label=&quot;Views&quot;&gt;
+      &lt;button class=&quot;tab active&quot; data-view-button=&quot;brainstorm&quot;&gt;Brainstorm&lt;/button&gt;
+      &lt;button class=&quot;tab&quot; data-view-button=&quot;planner&quot;&gt;Planner&lt;/button&gt;
+    &lt;/nav&gt;
+    &lt;div class=&quot;actions&quot;&gt;
+      &lt;button class=&quot;icon-btn&quot; id=&quot;importBtn&quot; title=&quot;Import sheet&quot; aria-label=&quot;Import sheet&quot;&gt;
+        &lt;svg width=&quot;17&quot; height=&quot;17&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot;&gt;&lt;path d=&quot;M12 3v12m0 0 4-4m-4 4-4-4M5 17v2a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-2&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;2&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;/&gt;&lt;/svg&gt;
+      &lt;/button&gt;
+      &lt;button class=&quot;icon-btn&quot; id=&quot;downloadBtn&quot; title=&quot;Download sheet&quot; aria-label=&quot;Download sheet&quot;&gt;
+        &lt;svg width=&quot;17&quot; height=&quot;17&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot;&gt;&lt;path d=&quot;M12 21V9m0 12 4-4m-4 4-4-4M5 7V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v2&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;2&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;/&gt;&lt;/svg&gt;
+      &lt;/button&gt;
+      &lt;div class=&quot;transfer-menu&quot; id=&quot;downloadMenu&quot; role=&quot;menu&quot;&gt;
+        &lt;button class=&quot;menu-item&quot; id=&quot;downloadSheetBtn&quot; role=&quot;menuitem&quot;&gt;
+          &lt;svg width=&quot;15&quot; height=&quot;15&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot;&gt;&lt;path d=&quot;M14 3v4a2 2 0 0 0 2 2h4M5 3h9l6 6v12H5z&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;2&quot; stroke-linejoin=&quot;round&quot;/&gt;&lt;/svg&gt;
+          Sheet file
+        &lt;/button&gt;
+        &lt;button class=&quot;menu-item&quot; id=&quot;downloadImageBtn&quot; role=&quot;menuitem&quot;&gt;
+          &lt;svg width=&quot;15&quot; height=&quot;15&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot;&gt;&lt;path d=&quot;M4 5h16v14H4zM8 13l2.5-3 3 4 2-2.5L20 17M8 8h.01&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;2&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;/&gt;&lt;/svg&gt;
+          Image
+        &lt;/button&gt;
+      &lt;/div&gt;
+      &lt;button class=&quot;dark-btn&quot; id=&quot;primaryAddBtn&quot;&gt;
+        &lt;svg width=&quot;16&quot; height=&quot;16&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot;&gt;&lt;path d=&quot;M12 5v14M5 12h14&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;2.3&quot; stroke-linecap=&quot;round&quot;/&gt;&lt;/svg&gt;
+        &lt;span&gt;Add&lt;/span&gt;
+      &lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/header&gt;
+
+  &lt;main class=&quot;view brainstorm active&quot; id=&quot;brainstormView&quot;&gt;
+    &lt;aside class=&quot;toolrail&quot; aria-label=&quot;Brainstorm tools&quot;&gt;
+      &lt;button class=&quot;tool active&quot; id=&quot;selectTool&quot; title=&quot;Move and select&quot; aria-label=&quot;Move and select&quot;&gt;
+        &lt;svg width=&quot;19&quot; height=&quot;19&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot;&gt;&lt;path d=&quot;M5 3 19 12l-6.6 1.8L9 21 5 3Z&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;2&quot; stroke-linejoin=&quot;round&quot;/&gt;&lt;/svg&gt;
+      &lt;/button&gt;
+      &lt;button class=&quot;tool&quot; id=&quot;connectTool&quot; title=&quot;Connect blocks&quot; aria-label=&quot;Connect blocks&quot;&gt;
+        &lt;svg width=&quot;19&quot; height=&quot;19&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot;&gt;&lt;path d=&quot;M7 12h10M5 12a2.5 2.5 0 1 0 0 .1M19 12a2.5 2.5 0 1 0 0 .1&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;2&quot; stroke-linecap=&quot;round&quot;/&gt;&lt;/svg&gt;
+      &lt;/button&gt;
+      &lt;button class=&quot;tool&quot; id=&quot;fitBtn&quot; title=&quot;Fit view&quot; aria-label=&quot;Fit view&quot; style=&quot;margin-top:auto&quot;&gt;
+        &lt;svg width=&quot;19&quot; height=&quot;19&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot;&gt;&lt;path d=&quot;M4 9V4h5M15 4h5v5M20 15v5h-5M9 20H4v-5&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;2&quot; stroke-linecap=&quot;round&quot;/&gt;&lt;/svg&gt;
+      &lt;/button&gt;
+    &lt;/aside&gt;
+
+    &lt;section class=&quot;canvas-shell&quot; id=&quot;canvasShell&quot;&gt;
+      &lt;div class=&quot;canvas-world&quot; id=&quot;canvasWorld&quot;&gt;
+        &lt;svg class=&quot;connection-svg&quot; id=&quot;connectionSvg&quot; aria-hidden=&quot;true&quot;&gt;
+          &lt;defs&gt;
+            &lt;marker id=&quot;arrow&quot; markerWidth=&quot;9&quot; markerHeight=&quot;9&quot; refX=&quot;7&quot; refY=&quot;4.5&quot; orient=&quot;auto&quot;&gt;
+              &lt;path d=&quot;M1 1 L8 4.5 L1 8 Z&quot; fill=&quot;#7256ad&quot; opacity=&quot;.62&quot;&gt;&lt;/path&gt;
+            &lt;/marker&gt;
+          &lt;/defs&gt;
+          &lt;g id=&quot;connectionLayer&quot;&gt;&lt;/g&gt;
+          &lt;path id=&quot;draftConnection&quot; fill=&quot;none&quot; stroke=&quot;#7256ad&quot; stroke-width=&quot;2&quot; stroke-dasharray=&quot;7 6&quot; opacity=&quot;.55&quot; style=&quot;display:none&quot;&gt;&lt;/path&gt;
+        &lt;/svg&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;floating-bar&quot;&gt;
+        &lt;div class=&quot;chip-row&quot;&gt;
+          &lt;button class=&quot;chip active&quot; data-type-filter=&quot;all&quot;&gt;All&lt;/button&gt;
+          &lt;button class=&quot;chip&quot; data-type-filter=&quot;main&quot;&gt;Main&lt;/button&gt;
+          &lt;button class=&quot;chip&quot; data-type-filter=&quot;idea&quot;&gt;Ideas&lt;/button&gt;
+          &lt;button class=&quot;chip&quot; data-type-filter=&quot;task&quot;&gt;Tasks&lt;/button&gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;zoom&quot;&gt;
+          &lt;button id=&quot;zoomOutBtn&quot; aria-label=&quot;Zoom out&quot;&gt;-&lt;/button&gt;
+          &lt;span id=&quot;zoomLabel&quot;&gt;100%&lt;/span&gt;
+          &lt;button id=&quot;zoomInBtn&quot; aria-label=&quot;Zoom in&quot;&gt;+&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/section&gt;
+
+    &lt;aside class=&quot;inspector&quot; id=&quot;inspector&quot;&gt;
+      &lt;div class=&quot;panel-head&quot; id=&quot;sheetHandle&quot;&gt;
+        &lt;div&gt;
+          &lt;div class=&quot;panel-title&quot; id=&quot;inspectorTitle&quot;&gt;Block Studio&lt;/div&gt;
+          &lt;div class=&quot;panel-note&quot; id=&quot;inspectorNote&quot;&gt;Tap a block to edit style, size, and links.&lt;/div&gt;
+        &lt;/div&gt;
+        &lt;button class=&quot;icon-btn mobile-sheet-toggle&quot; id=&quot;sheetToggle&quot; aria-label=&quot;Close editor&quot;&gt;
+          &lt;svg width=&quot;16&quot; height=&quot;16&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot;&gt;&lt;path d=&quot;m6 15-6-6 6-6&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;2.2&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;/&gt;&lt;/svg&gt;
+        &lt;/button&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;panel-body&quot; id=&quot;inspectorBody&quot;&gt;&lt;/div&gt;
+    &lt;/aside&gt;
+  &lt;/main&gt;
+
+  &lt;main class=&quot;view planner&quot; id=&quot;plannerView&quot;&gt;
+    &lt;div class=&quot;planner-top&quot;&gt;
+      &lt;button class=&quot;icon-btn&quot; id=&quot;prevMonthBtn&quot; aria-label=&quot;Previous month&quot;&gt;
+        &lt;svg width=&quot;17&quot; height=&quot;17&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot;&gt;&lt;path d=&quot;m15 18-6-6 6-6&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;2.2&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;/&gt;&lt;/svg&gt;
+      &lt;/button&gt;
+      &lt;div class=&quot;month-title&quot; id=&quot;monthTitle&quot;&gt;&lt;/div&gt;
+      &lt;button class=&quot;icon-btn&quot; id=&quot;nextMonthBtn&quot; aria-label=&quot;Next month&quot;&gt;
+        &lt;svg width=&quot;17&quot; height=&quot;17&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot;&gt;&lt;path d=&quot;m9 6 6 6-6 6&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;2.2&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;/&gt;&lt;/svg&gt;
+      &lt;/button&gt;
+      &lt;div class=&quot;tabs&quot; style=&quot;margin-left:auto&quot;&gt;
+        &lt;button class=&quot;tab active&quot; data-plan-view=&quot;week&quot;&gt;Week&lt;/button&gt;
+        &lt;button class=&quot;tab&quot; data-plan-view=&quot;month&quot;&gt;Month&lt;/button&gt;
+        &lt;button class=&quot;tab&quot; data-plan-view=&quot;agenda&quot;&gt;List&lt;/button&gt;
+      &lt;/div&gt;
+      &lt;button class=&quot;dark-btn&quot; id=&quot;addTaskTopBtn&quot;&gt;
+        &lt;svg width=&quot;16&quot; height=&quot;16&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot;&gt;&lt;path d=&quot;M12 5v14M5 12h14&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;2.3&quot; stroke-linecap=&quot;round&quot;/&gt;&lt;/svg&gt;
+        Task
+      &lt;/button&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;planner-body&quot;&gt;
+      &lt;section class=&quot;planner-scroll&quot; id=&quot;plannerScroll&quot;&gt;&lt;/section&gt;
+      &lt;aside class=&quot;side-panel&quot;&gt;
+        &lt;div class=&quot;field&quot;&gt;
+          &lt;span class=&quot;label&quot;&gt;Calendar&lt;/span&gt;
+          &lt;div class=&quot;mini-cal&quot; id=&quot;miniCal&quot;&gt;&lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;field&quot;&gt;
+          &lt;span class=&quot;label&quot;&gt;Monthly Progress&lt;/span&gt;
+          &lt;div class=&quot;panel-note&quot; id=&quot;progressText&quot;&gt;0 of 0 done&lt;/div&gt;
+          &lt;div class=&quot;progress-track&quot; style=&quot;margin-top:10px&quot;&gt;&lt;div class=&quot;progress-fill&quot; id=&quot;progressFill&quot;&gt;&lt;/div&gt;&lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;field&quot;&gt;
+          &lt;span class=&quot;label&quot;&gt;Filter&lt;/span&gt;
+          &lt;div class=&quot;seg&quot; id=&quot;tagFilters&quot;&gt;
+            &lt;button class=&quot;active&quot; data-tag=&quot;all&quot;&gt;All&lt;/button&gt;
+            &lt;button data-tag=&quot;work&quot;&gt;Work&lt;/button&gt;
+            &lt;button data-tag=&quot;life&quot;&gt;Life&lt;/button&gt;
+            &lt;button data-tag=&quot;study&quot;&gt;Study&lt;/button&gt;
+            &lt;button data-tag=&quot;health&quot;&gt;Health&lt;/button&gt;
+            &lt;button data-tag=&quot;creative&quot;&gt;Creative&lt;/button&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/aside&gt;
+    &lt;/div&gt;
+  &lt;/main&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;modal-shade&quot; id=&quot;nodeWizardModal&quot; role=&quot;dialog&quot; aria-modal=&quot;true&quot;&gt;
+  &lt;div class=&quot;modal&quot;&gt;
+    &lt;h2 id=&quot;wizardStepTitle&quot;&gt;Block Step 1: Select Type&lt;/h2&gt;
+    &lt;div id=&quot;wizardStep1&quot;&gt;
+      &lt;div class=&quot;wizard-seg&quot; id=&quot;wizardTypeSeg&quot;&gt;
+        &lt;button data-wtype=&quot;main&quot; class=&quot;active&quot;&gt;Main Idea&lt;/button&gt;
+        &lt;button data-wtype=&quot;idea&quot;&gt;Idea&lt;/button&gt;
+        &lt;button data-wtype=&quot;question&quot;&gt;Question&lt;/button&gt;
+        &lt;button data-wtype=&quot;task&quot;&gt;Task&lt;/button&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;modal-actions&quot;&gt;
+        &lt;button class=&quot;soft-btn&quot; id=&quot;closeWizardBtn&quot;&gt;Cancel&lt;/button&gt;
+        &lt;button class=&quot;dark-btn&quot; id=&quot;nextWizardBtn&quot;&gt;Next&lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div id=&quot;wizardStep2&quot; style=&quot;display:none&quot;&gt;
+      &lt;div class=&quot;field&quot;&gt;
+        &lt;span class=&quot;label&quot;&gt;Select Color&lt;/span&gt;
+        &lt;div class=&quot;swatches&quot; id=&quot;wizardColorChoices&quot;&gt;&lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;field&quot; style=&quot;margin-top:14px&quot;&gt;
+        &lt;label class=&quot;label&quot; for=&quot;wizardTitleInput&quot;&gt;Title&lt;/label&gt;
+        &lt;input class=&quot;input&quot; id=&quot;wizardTitleInput&quot; placeholder=&quot;What is your block about?&quot;&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;modal-actions&quot;&gt;
+        &lt;button class=&quot;soft-btn&quot; id=&quot;backWizardBtn&quot;&gt;Back&lt;/button&gt;
+        &lt;button class=&quot;dark-btn&quot; id=&quot;createWizardBtn&quot;&gt;Create Block&lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;modal-shade&quot; id=&quot;taskModal&quot; role=&quot;dialog&quot; aria-modal=&quot;true&quot; aria-labelledby=&quot;taskModalTitle&quot;&gt;
+  &lt;div class=&quot;modal&quot;&gt;
+    &lt;h2 id=&quot;taskModalTitle&quot;&gt;New Task&lt;/h2&gt;
+    &lt;div class=&quot;field&quot;&gt;
+      &lt;label class=&quot;label&quot; for=&quot;taskName&quot;&gt;Task&lt;/label&gt;
+      &lt;input class=&quot;input&quot; id=&quot;taskName&quot; placeholder=&quot;What needs to happen?&quot;&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;field&quot;&gt;
+      &lt;label class=&quot;label&quot; for=&quot;taskDate&quot;&gt;Date&lt;/label&gt;
+      &lt;input class=&quot;input&quot; type=&quot;date&quot; id=&quot;taskDate&quot;&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;field&quot;&gt;
+      &lt;label class=&quot;label&quot; for=&quot;taskTag&quot;&gt;Label&lt;/label&gt;
+      &lt;select class=&quot;select&quot; id=&quot;taskTag&quot;&gt;
+        &lt;option value=&quot;work&quot;&gt;Work&lt;/option&gt;
+        &lt;option value=&quot;life&quot;&gt;Life&lt;/option&gt;
+        &lt;option value=&quot;study&quot;&gt;Study&lt;/option&gt;
+        &lt;option value=&quot;health&quot;&gt;Health&lt;/option&gt;
+        &lt;option value=&quot;creative&quot;&gt;Creative&lt;/option&gt;
+      &lt;/select&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;field&quot;&gt;
+      &lt;span class=&quot;label&quot;&gt;Color&lt;/span&gt;
+      &lt;div class=&quot;swatches&quot; id=&quot;taskColorChoices&quot;&gt;&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;modal-actions&quot;&gt;
+      &lt;button class=&quot;soft-btn&quot; id=&quot;cancelTaskBtn&quot;&gt;Cancel&lt;/button&gt;
+      &lt;button class=&quot;dark-btn&quot; id=&quot;saveTaskBtn&quot;&gt;Save Task&lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;input type=&quot;file&quot; id=&quot;fileInput&quot; accept=&quot;application/json,.json&quot; hidden&gt;
+&lt;div class=&quot;toast&quot; id=&quot;toast&quot; role=&quot;status&quot;&gt;&lt;/div&gt;
+
+&lt;script&gt;
+(() =&gt; {
+  &quot;use strict&quot;;
+  const STORAGE_KEY = &quot;petal-planner-v2&quot;;
+  const colors = {
+    plum: { name: &quot;Plum&quot;, bg: &quot;#f0ebfa&quot;, line: &quot;#c8b6ea&quot;, text: &quot;#392964&quot;, stroke: &quot;#8a6bc0&quot; },
+    rose: { name: &quot;Rose&quot;, bg: &quot;#faedf1&quot;, line: &quot;#e9a5b8&quot;, text: &quot;#633241&quot;, stroke: &quot;#d4748f&quot; },
+    sage: { name: &quot;Sage&quot;, bg: &quot;#edf6f0&quot;, line: &quot;#9bc5aa&quot;, text: &quot;#2f563b&quot;, stroke: &quot;#6fa582&quot; },
+    sky: { name: &quot;Sky&quot;, bg: &quot;#edf6fc&quot;, line: &quot;#9ac3e1&quot;, text: &quot;#254d70&quot;, stroke: &quot;#669bc4&quot; },
+    honey: { name: &quot;Honey&quot;, bg: &quot;#fbf3e5&quot;, line: &quot;#e2bd78&quot;, text: &quot;#644115&quot;, stroke: &quot;#c99042&quot; },
+    clay: { name: &quot;Clay&quot;, bg: &quot;#fbefeb&quot;, line: &quot;#e2a18f&quot;, text: &quot;#693728&quot;, stroke: &quot;#cf8069&quot; }
+  };
+
+  const state = {
+    view: &quot;brainstorm&quot;,
+    tool: &quot;select&quot;,
+    plannerView: &quot;week&quot;,
+    activeTag: &quot;all&quot;,
+    month: startOfMonth(new Date()),
+    scale: 1,
+    pan: { x: 80, y: 68 },
+    nextNode: 1,
+    nextLink: 1,
+    nextTask: 1,
+    nodes: [],
+    links: [],
+    tasks: [],
+    selectedNode: null,
+    filterType: &quot;all&quot;,
+    grid: true
+  };
+
+  const els = {
+    canvasShell: document.getElementById(&quot;canvasShell&quot;),
+    canvasWorld: document.getElementById(&quot;canvasWorld&quot;),
+    connectionLayer: document.getElementById(&quot;connectionLayer&quot;),
+    draftConnection: document.getElementById(&quot;draftConnection&quot;),
+    inspector: document.getElementById(&quot;inspector&quot;),
+    inspectorBody: document.getElementById(&quot;inspectorBody&quot;),
+    inspectorTitle: document.getElementById(&quot;inspectorTitle&quot;),
+    inspectorNote: document.getElementById(&quot;inspectorNote&quot;),
+    zoomLabel: document.getElementById(&quot;zoomLabel&quot;),
+    plannerScroll: document.getElementById(&quot;plannerScroll&quot;),
+    monthTitle: document.getElementById(&quot;monthTitle&quot;),
+    miniCal: document.getElementById(&quot;miniCal&quot;),
+    progressText: document.getElementById(&quot;progressText&quot;),
+    progressFill: document.getElementById(&quot;progressFill&quot;),
+    taskModal: document.getElementById(&quot;taskModal&quot;),
+    taskName: document.getElementById(&quot;taskName&quot;),
+    taskDate: document.getElementById(&quot;taskDate&quot;),
+    taskTag: document.getElementById(&quot;taskTag&quot;),
+    taskColorChoices: document.getElementById(&quot;taskColorChoices&quot;),
+    downloadMenu: document.getElementById(&quot;downloadMenu&quot;),
+    fileInput: document.getElementById(&quot;fileInput&quot;),
+    toast: document.getElementById(&quot;toast&quot;),
+    nodeWizardModal: document.getElementById(&quot;nodeWizardModal&quot;)
+  };
+
+  let drag = null;
+  let resize = null;
+  let panDrag = null;
+  let connectDraft = null;
+  let saveTimer = null;
+  let editingTask = null;
+  let taskColor = &quot;plum&quot;;
+  
+  // Wizard Temp Memory
+  let wizardType = &quot;main&quot;;
+  let wizardColor = &quot;plum&quot;;
+
+  function isoDate(date) {
+    const copy = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 12);
+    return copy.toISOString().slice(0, 10);
+  }
+
+  function startOfMonth(date) {
+    return new Date(date.getFullYear(), date.getMonth(), 1);
+  }
+
+  function clamp(value, min, max) {
+    return Math.max(min, Math.min(max, value));
+  }
+
+  function escapeHtml(value) {
+    return String(value ?? &quot;&quot;).replace(/[&amp;&lt;&gt;&quot;']/g, (ch) =&gt; ({
+      &quot;&amp;&quot;: &quot;&amp;amp;&quot;,
+      &quot;&lt;&quot;: &quot;&amp;lt;&quot;,
+      &quot;&gt;&quot;: &quot;&amp;gt;&quot;,
+      &quot;\&quot;&quot;: &quot;&amp;quot;&quot;,
+      &quot;'&quot;: &quot;&amp;#39;&quot;
+    }[ch]));
+  }
+
+  function uid(prefix, key) {
+    const value = state[key]++;
+    return `${prefix}-${value}`;
+  }
+
+  function centerCanvasPoint() {
+    const rect = els.canvasShell.getBoundingClientRect();
+    return {
+      x: (rect.width / 2 - state.pan.x) / state.scale,
+      y: (rect.height / 2 - state.pan.y) / state.scale
+    };
+  }
+
+  function saveSoon() {
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(saveNow, 160);
+  }
+
+  function saveNow() {
+    const snapshot = {
+      version: 2,
+      savedAt: new Date().toISOString(),
+      state: {
+        nextNode: state.nextNode,
+        nextLink: state.nextLink,
+        nextTask: state.nextTask,
+        nodes: state.nodes,
+        links: state.links,
+        tasks: state.tasks,
+        pan: state.pan,
+        scale: state.scale,
+        grid: state.grid
+      }
+    };
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(snapshot));
+  }
+
+  function loadSaved() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return false;
+      const parsed = JSON.parse(raw);
+      const saved = parsed.state || parsed;
+      state.nextNode = saved.nextNode || 1;
+      state.nextLink = saved.nextLink || 1;
+      state.nextTask = saved.nextTask || 1;
+      state.nodes = Array.isArray(saved.nodes) ? saved.nodes : [];
+      state.links = Array.isArray(saved.links) ? saved.links : [];
+      state.tasks = Array.isArray(saved.tasks) ? saved.tasks : [];
+      state.pan = saved.pan || state.pan;
+      state.scale = saved.scale || 1;
+      state.grid = saved.grid !== false;
+      return state.nodes.length || state.tasks.length;
+    } catch {
+      return false;
+    }
+  }
+
+  function seedData() {
+    const main = addNode({ type: &quot;main&quot;, title: &quot;Main Idea&quot;, note: &quot;Start here, then connect anything from any side.&quot;, color: &quot;plum&quot;, x: 80, y: 90, w: 220, h: 118, isCustomSize: true }, false);
+    const a = addNode({ type: &quot;idea&quot;, title: &quot;Direction A&quot;, note: &quot;A possible branch.&quot;, color: &quot;rose&quot;, x: 390, y: 42, w: 188, h: 100, isCustomSize: true }, false);
+    const b = addNode({ type: &quot;question&quot;, title: &quot;Question&quot;, note: &quot;What needs proof?&quot;, color: &quot;sky&quot;, x: 390, y: 190, w: 188, h: 100, isCustomSize: true }, false);
+    const c = addNode({ type: &quot;task&quot;, title: &quot;Next Action&quot;, note: &quot;Turn this into a planner task.&quot;, color: &quot;sage&quot;, x: 660, y: 116, w: 194, h: 104, isCustomSize: true }, false);
+    state.links.push({ id: uid(&quot;link&quot;, &quot;nextLink&quot;), from: main.id, fromPort: &quot;right&quot;, to: a.id, toPort: &quot;left&quot; });
+    state.links.push({ id: uid(&quot;link&quot;, &quot;nextLink&quot;), from: main.id, fromPort: &quot;right&quot;, to: b.id, toPort: &quot;left&quot; });
+    state.links.push({ id: uid(&quot;link&quot;, &quot;nextLink&quot;), from: b.id, fromPort: &quot;bottom&quot;, to: c.id, toPort: &quot;bottom&quot; });
+    const today = isoDate(new Date());
+    const tomorrowDate = new Date();
+    tomorrowDate.setDate(tomorrowDate.getDate() + 1);
+    state.tasks.push(
+      { id: uid(&quot;task&quot;, &quot;nextTask&quot;), name: &quot;Refine brainstorm map&quot;, date: today, tag: &quot;creative&quot;, color: &quot;plum&quot;, done: false },
+      { id: uid(&quot;task&quot;, &quot;nextTask&quot;), name: &quot;Choose three next actions&quot;, date: today, tag: &quot;work&quot;, color: &quot;sage&quot;, done: true },
+      { id: uid(&quot;task&quot;, &quot;nextTask&quot;), name: &quot;Review tomorrow plan&quot;, date: isoDate(tomorrowDate), tag: &quot;life&quot;, color: &quot;rose&quot;, done: false }
+    );
+  }
+
+  function addNode(overrides = {}, shouldRender = true) {
+    const center = centerCanvasPoint();
+    const node = {
+      id: overrides.id || uid(&quot;node&quot;, &quot;nextNode&quot;),
+      type: overrides.type || &quot;idea&quot;,
+      title: overrides.title || &quot;New Idea&quot;,
+      note: overrides.note || &quot;&quot;,
+      color: overrides.color || &quot;plum&quot;,
+      shape: overrides.shape || &quot;soft&quot;,
+      x: overrides.x ?? center.x - 95,
+      y: overrides.y ?? center.y - 54,
+      w: overrides.w || 200,
+      h: overrides.h || 104,
+      z: overrides.z || state.nextNode,
+      isCustomSize: overrides.isCustomSize || false
+    };
+    state.nodes.push(node);
+    state.selectedNode = node.id;
+    if (shouldRender) {
+      renderAll();
+      openInspector();
+      saveSoon();
+    }
+    return node;
+  }
+
+  function selectedNode() {
+    return state.nodes.find((node) =&gt; node.id === state.selectedNode) || null;
+  }
+
+  function setView(view) {
+    state.view = view;
+    document.querySelectorAll(&quot;.view&quot;).forEach((el) =&gt; el.classList.remove(&quot;active&quot;));
+    document.getElementById(view === &quot;brainstorm&quot; ? &quot;brainstormView&quot; : &quot;plannerView&quot;).classList.add(&quot;active&quot;);
+    document.querySelectorAll(&quot;[data-view-button]&quot;).forEach((button) =&gt; {
+      button.classList.toggle(&quot;active&quot;, button.dataset.viewButton === view);
+    });
+    document.getElementById(&quot;primaryAddBtn&quot;).querySelector(&quot;span&quot;).textContent = view === &quot;brainstorm&quot; ? &quot;Add&quot; : &quot;Task&quot;;
+    if (view === &quot;planner&quot;) renderPlanner();
+  }
+
+  function setTool(tool) {
+    state.tool = tool;
+    connectDraft = null;
+    els.draftConnection.style.display = &quot;none&quot;;
+    document.getElementById(&quot;selectTool&quot;).classList.toggle(&quot;active&quot;, tool === &quot;select&quot;);
+    document.getElementById(&quot;connectTool&quot;).classList.toggle(&quot;active&quot;, tool === &quot;connect&quot;);
+    toast(tool === &quot;connect&quot; ? &quot;Tap a dot on one block, then a dot on another.&quot; : &quot;Move mode&quot;);
+  }
+
+  function applyTransform() {
+    els.canvasWorld.style.transform = `translate(${state.pan.x}px, ${state.pan.y}px) scale(${state.scale})`;
+    els.zoomLabel.textContent = `${Math.round(state.scale * 100)}%`;
+  }
+
+  function renderAll() {
+    renderNodes();
+    drawLinks();
+    renderInspector();
+    applyTransform();
+  }
+
+  function renderNodes() {
+    // Keep reference of current element inside canvasWorld to prevent raw wiping
+    const oldNodes = els.canvasWorld.querySelectorAll(&quot;article.node&quot;);
+    oldNodes.forEach(n =&gt; n.remove());
+
+    const visible = state.nodes.filter((node) =&gt; state.filterType === &quot;all&quot; || node.type === state.filterType);
+    visible.forEach((node) =&gt; {
+      const color = colors[node.color] || colors.plum;
+      const el = document.createElement(&quot;article&quot;);
+      el.className = `node ${node.type} ${node.id === state.selectedNode ? &quot;selected&quot; : &quot;&quot;}`;
+      el.dataset.id = node.id;
+      el.style.setProperty(&quot;--node-bg&quot;, color.bg);
+      el.style.setProperty(&quot;--node-line&quot;, color.line);
+      el.style.setProperty(&quot;--node-text&quot;, color.text);
+      el.style.setProperty(&quot;--node-radius&quot;, node.shape === &quot;sharp&quot; ? &quot;4px&quot; : node.shape === &quot;pill&quot; ? &quot;22px&quot; : &quot;8px&quot;);
+      el.style.left = `${node.x}px`;
+      el.style.top = `${node.y}px`;
+      
+      // Auto proportions adjustment unless user forced layout sizing
+      if (node.isCustomSize) {
+        el.style.width = `${node.w}px`;
+        el.style.height = `${node.h}px`;
+      } else {
+        el.style.width = `${node.w}px`;
+        el.style.height = &quot;auto&quot;;
+      }
+      
+      el.style.zIndex = node.z || 1;
+      el.innerHTML = `
+        ${[&quot;top&quot;, &quot;right&quot;, &quot;bottom&quot;, &quot;left&quot;].map((port) =&gt; `&lt;button class=&quot;port ${port}&quot; data-port=&quot;${port}&quot; aria-label=&quot;${port} connector&quot;&gt;&lt;/button&gt;`).join(&quot;&quot;)}
+        &lt;div class=&quot;node-title&quot;&gt;${escapeHtml(node.title || &quot;Untitled&quot;)}&lt;/div&gt;
+        &lt;div class=&quot;node-note&quot;&gt;${escapeHtml(node.note || &quot;Tap to edit this block.&quot;)}&lt;/div&gt;
+        &lt;div class=&quot;resize-corner&quot; aria-hidden=&quot;true&quot;&gt;&lt;/div&gt;
+      `;
+      els.canvasWorld.appendChild(el);
+      
+      // Dynamic Read of true proportions if auto-expanding
+      if (!node.isCustomSize) {
+        const bound = el.getBoundingClientRect();
+        node.h = Math.round(bound.height / state.scale);
+      }
+    });
+  }
+
+  function getNode(id) {
+    return state.nodes.find((node) =&gt; node.id === id);
+  }
+
+  function portPosition(nodeId, port) {
+    const node = getNode(nodeId);
+    if (!node) return { x: 0, y: 0 };
+    const cx = node.x + node.w / 2;
+    const cy = node.y + node.h / 2;
+    if (port === &quot;top&quot;) return { x: cx, y: node.y };
+    if (port === &quot;bottom&quot;) return { x: cx, y: node.y + node.h };
+    if (port === &quot;left&quot;) return { x: node.x, y: cy };
+    return { x: node.x + node.w, y: cy };
+  }
+
+  function linkPath(a, b, fromPort, toPort) {
+    const dx = Math.abs(b.x - a.x);
+    const dy = Math.abs(b.y - a.y);
+    const strength = Math.max(44, Math.min(180, (dx + dy) * .28));
+    const c1 = { x: a.x, y: a.y };
+    const c2 = { x: b.x, y: b.y };
+    if (fromPort === &quot;right&quot;) c1.x += strength;
+    if (fromPort === &quot;left&quot;) c1.x -= strength;
+    if (fromPort === &quot;bottom&quot;) c1.y += strength;
+    if (fromPort === &quot;top&quot;) c1.y -= strength;
+    if (toPort === &quot;right&quot;) c2.x += strength;
+    if (toPort === &quot;left&quot;) c2.x -= strength;
+    if (toPort === &quot;bottom&quot;) c2.y += strength;
+    if (toPort === &quot;top&quot;) c2.y -= strength;
+    return `M ${a.x} ${a.y} C ${c1.x} ${c1.y}, ${c2.x} ${c2.y}, ${b.x} ${b.y}`;
+  }
+
+  function drawLinks() {
+    els.connectionLayer.innerHTML = &quot;&quot;;
+    state.links.forEach((link) =&gt; {
+      const fromNode = getNode(link.from);
+      const toNode = getNode(link.to);
+      if (!fromNode || !toNode) return;
+      if (state.filterType !== &quot;all&quot; &amp;&amp; (fromNode.type !== state.filterType || toNode.type !== state.filterType)) return;
+      
+      const color = colors[fromNode.color] || colors.plum;
+      // Using World Coordinates directly inside the scaled world layer
+      const a = portPosition(link.from, link.fromPort);
+      const b = portPosition(link.to, link.toPort);
+      
+      const path = document.createElementNS(&quot;http://www.w3.org/2000/svg&quot;, &quot;path&quot;);
+      path.setAttribute(&quot;d&quot;, linkPath(a, b, link.fromPort, link.toPort));
+      path.setAttribute(&quot;fill&quot;, &quot;none&quot;);
+      path.setAttribute(&quot;stroke&quot;, color.stroke);
+      path.setAttribute(&quot;stroke-width&quot;, &quot;2.2&quot;);
+      path.setAttribute(&quot;stroke-linecap&quot;, &quot;round&quot;);
+      path.setAttribute(&quot;opacity&quot;, &quot;.78&quot;);
+      path.setAttribute(&quot;marker-end&quot;, &quot;url(#arrow)&quot;);
+      els.connectionLayer.appendChild(path);
+      
+      // Increased touch target size for mobile link clearing
+      const hit = document.createElementNS(&quot;http://www.w3.org/2000/svg&quot;, &quot;path&quot;);
+      hit.setAttribute(&quot;d&quot;, path.getAttribute(&quot;d&quot;));
+      hit.setAttribute(&quot;fill&quot;, &quot;none&quot;);
+      hit.setAttribute(&quot;stroke&quot;, &quot;transparent&quot;);
+      hit.setAttribute(&quot;stroke-width&quot;, &quot;24&quot;); 
+      hit.style.pointerEvents = &quot;stroke&quot;;
+      hit.style.cursor = &quot;pointer&quot;;
+      
+      const clearLink = (e) =&gt; {
+        e.stopPropagation();
+        state.links = state.links.filter((item) =&gt; item.id !== link.id);
+        drawLinks();
+        saveSoon();
+        toast(&quot;Connection removed&quot;);
+      };
+      hit.addEventListener(&quot;pointerdown&quot;, clearLink);
+      els.connectionLayer.appendChild(hit);
+    });
+  }
+
+  function selectNode(id) {
+    state.selectedNode = id;
+    renderNodes();
+    drawLinks();
+    renderInspector();
+    if (id) {
+      openInspector();
+    } else {
+      closeInspector();
+    }
+  }
+
+  function updateSelected(patch) {
+    const node = selectedNode();
+    if (!node) return;
+    Object.assign(node, patch);
+    renderAll();
+    saveSoon();
+  }
+
+  function duplicateSelected() {
+    const node = selectedNode();
+    if (!node) return;
+    addNode({ ...node, id: undefined, x: node.x + 34, y: node.y + 34, z: state.nextNode + 1 }, true);
+    toast(&quot;Block duplicated&quot;);
+  }
+
+  function deleteSelected() {
+    const node = selectedNode();
+    if (!node) return;
+    state.links = state.links.filter((link) =&gt; link.from !== node.id &amp;&amp; link.to !== node.id);
+    state.nodes = state.nodes.filter((item) =&gt; item.id !== node.id);
+    state.selectedNode = null;
+    renderAll();
+    saveSoon();
+    closeInspector();
+    toast(&quot;Block deleted&quot;);
+  }
+
+  function renderInspector() {
+    const node = selectedNode();
+    if (!node) {
+      els.inspectorTitle.textContent = &quot;Block Studio&quot;;
+      els.inspectorNote.textContent = &quot;Tap a block to edit style, size, and links.&quot;;
+      els.inspectorBody.innerHTML = `
+        &lt;div class=&quot;hint&quot;&gt;Use Add to create blocks, Connect to link any side to any side, and Download to save a copy of your whole sheet.&lt;/div&gt;
+      `;
+      return;
+    }
+
+    els.inspectorTitle.textContent = &quot;Edit Block&quot;;
+    els.inspectorNote.textContent = &quot;Changes save automatically.&quot;;
+    els.inspectorBody.innerHTML = `
+      &lt;div class=&quot;field&quot;&gt;
+        &lt;span class=&quot;label&quot;&gt;Quick Palette&lt;/span&gt;
+        &lt;div class=&quot;swatches&quot;&gt;
+          ${Object.entries(colors).map(([key, color]) =&gt; `&lt;button class=&quot;swatch ${node.color === key ? &quot;active&quot; : &quot;&quot;}&quot; data-node-color=&quot;${key}&quot; title=&quot;${color.name}&quot; style=&quot;background:${color.bg};border-color:${node.color === key ? color.stroke : &quot;transparent&quot;}&quot;&gt;&lt;/button&gt;`).join(&quot;&quot;)}
+        &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;field&quot;&gt;
+        &lt;label class=&quot;label&quot; for=&quot;nodeTitle&quot;&gt;Text Contents&lt;/label&gt;
+        &lt;input class=&quot;input&quot; id=&quot;nodeTitle&quot; value=&quot;${escapeHtml(node.title)}&quot; maxlength=&quot;72&quot; placeholder=&quot;Title&quot;&gt;
+        &lt;textarea class=&quot;textarea&quot; id=&quot;nodeNote&quot; maxlength=&quot;360&quot; style=&quot;margin-top:8px&quot; placeholder=&quot;Add descriptions or thoughts...&quot;&gt;${escapeHtml(node.note)}&lt;/textarea&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;field&quot;&gt;
+        &lt;span class=&quot;label&quot;&gt;Type&lt;/span&gt;
+        &lt;div class=&quot;seg&quot; id=&quot;typeSeg&quot;&gt;
+          ${[&quot;main&quot;, &quot;idea&quot;, &quot;question&quot;, &quot;task&quot;].map((type) =&gt; `&lt;button class=&quot;${node.type === type ? &quot;active&quot; : &quot;&quot;}&quot; data-node-type=&quot;${type}&quot;&gt;${type}&lt;/button&gt;`).join(&quot;&quot;)}
+        &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;field&quot;&gt;
+        &lt;span class=&quot;label&quot;&gt;Border Styling&lt;/span&gt;
+        &lt;div class=&quot;seg&quot;&gt;
+          ${[&quot;soft&quot;, &quot;sharp&quot;, &quot;pill&quot;].map((shape) =&gt; `&lt;button class=&quot;${node.shape === shape ? &quot;active&quot; : &quot;&quot;}&quot; data-node-shape=&quot;${shape}&quot;&gt;${shape}&lt;/button&gt;`).join(&quot;&quot;)}
+        &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;field&quot;&gt;
+        &lt;span class=&quot;label&quot;&gt;Manual Size Adjustment&lt;/span&gt;
+        &lt;div class=&quot;range-line&quot;&gt;
+          &lt;input type=&quot;range&quot; min=&quot;140&quot; max=&quot;420&quot; value=&quot;${node.w}&quot; id=&quot;nodeWidth&quot;&gt;
+          &lt;input class=&quot;input&quot; value=&quot;${node.w}&quot; id=&quot;nodeWidthText&quot;&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;panel-actions&quot; style=&quot;margin-top:18px&quot;&gt;
+        &lt;button class=&quot;soft-btn&quot; id=&quot;duplicateNodeBtn&quot;&gt;Duplicate&lt;/button&gt;
+        &lt;button class=&quot;soft-btn&quot; id=&quot;bringFrontBtn&quot;&gt;Front&lt;/button&gt;
+        &lt;button class=&quot;soft-btn wide&quot; id=&quot;makeTaskBtn&quot; style=&quot;margin-top:4px&quot;&gt;Send to Planner&lt;/button&gt;
+        &lt;button class=&quot;danger-btn wide&quot; id=&quot;deleteNodeBtn&quot; style=&quot;margin-top:4px&quot;&gt;Delete Block&lt;/button&gt;
+      &lt;/div&gt;
+    `;
+  }
+
+  function openInspector() {
+    els.inspector.classList.add(&quot;open&quot;);
+  }
+
+  function closeInspector() {
+    els.inspector.classList.remove(&quot;open&quot;);
+  }
+
+  function zoom(delta) {
+    const old = state.scale;
+    const next = clamp(old + delta, .24, 2.5);
+    const rect = els.canvasShell.getBoundingClientRect();
+    const cx = rect.width / 2;
+    const cy = rect.height / 2;
+    state.pan.x = cx - (cx - state.pan.x) * (next / old);
+    state.pan.y = cy - (cy - state.pan.y) * (next / old);
+    state.scale = next;
+    applyTransform();
+    drawLinks();
+    saveSoon();
+  }
+
+  function fitView() {
+    if (!state.nodes.length) return;
+    const rect = els.canvasShell.getBoundingClientRect();
+    const xs = state.nodes.map((node) =&gt; [node.x, node.x + node.w]).flat();
+    const ys = state.nodes.map((node) =&gt; [node.y, node.y + node.h]).flat();
+    const minX = Math.min(...xs);
+    const maxX = Math.max(...xs);
+    const minY = Math.min(...ys);
+    const maxY = Math.max(...ys);
+    const pad = 80;
+    const width = maxX - minX + pad * 2;
+    const height = maxY - minY + pad * 2;
+    state.scale = clamp(Math.min(rect.width / width, rect.height / height), .32, 1.8);
+    state.pan.x = (rect.width - (maxX - minX) * state.scale) / 2 - minX * state.scale;
+    state.pan.y = (rect.height - (maxY - minY) * state.scale) / 2 - minY * state.scale;
+    applyTransform();
+    drawLinks();
+    saveSoon();
+  }
+
+  function addConnection(from, fromPort, to, toPort) {
+    if (from === to) return;
+    const exists = state.links.some((link) =&gt; link.from === from &amp;&amp; link.fromPort === fromPort &amp;&amp; link.to === to &amp;&amp; link.toPort === toPort);
+    if (exists) return;
+    state.links.push({ id: uid(&quot;link&quot;, &quot;nextLink&quot;), from, fromPort, to, toPort });
+    drawLinks();
+    saveSoon();
+    toast(&quot;Connected&quot;);
+  }
+
+  function pointerWorld(e) {
+    const rect = els.canvasShell.getBoundingClientRect();
+    return {
+      x: (e.clientX - rect.left - state.pan.x) / state.scale,
+      y: (e.clientY - rect.top - state.pan.y) / state.scale,
+      sx: e.clientX - rect.left,
+      sy: e.clientY - rect.top
+    };
+  }
+
+  function startDraft(nodeId, port, e) {
+    e.stopPropagation();
+    connectDraft = { nodeId, port };
+    document.querySelectorAll(&quot;.port&quot;).forEach((el) =&gt; el.classList.remove(&quot;armed&quot;));
+    e.currentTarget.classList.add(&quot;armed&quot;);
+    const start = portPosition(nodeId, port);
+    els.draftConnection.setAttribute(&quot;d&quot;, `M ${start.x} ${start.y} L ${start.x} ${start.y}`);
+    els.draftConnection.style.display = &quot;block&quot;;
+  }
+
+  function downloadJson() {
+    saveNow();
+    const payload = localStorage.getItem(STORAGE_KEY);
+    const blob = new Blob([payload], { type: &quot;application/json&quot; });
+    downloadBlob(blob, `petal-transfer-${isoDate(new Date())}.json`);
+    toast(&quot;Transfer file downloaded&quot;);
+  }
+
+  function downloadImage() {
+    const bounds = sheetBounds();
+    const svg = buildSnapshotSvg(bounds);
+    const blob = new Blob([svg], { type: &quot;image/svg+xml&quot; });
+    downloadBlob(blob, `petal-brainstorm-${isoDate(new Date())}.svg`);
+    toast(&quot;Image downloaded&quot;);
+  }
+
+  function downloadBlob(blob, name) {
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement(&quot;a&quot;);
+    a.href = url;
+    a.download = name;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() =&gt; URL.revokeObjectURL(url), 1200);
+  }
+
+  function sheetBounds() {
+    if (!state.nodes.length) return { x: 0, y: 0, w: 900, h: 620 };
+    const minX = Math.min(...state.nodes.map((node) =&gt; node.x)) - 60;
+    const minY = Math.min(...state.nodes.map((node) =&gt; node.y)) - 60;
+    const maxX = Math.max(...state.nodes.map((node) =&gt; node.x + node.w)) + 60;
+    const maxY = Math.max(...state.nodes.map((node) =&gt; node.y + node.h)) + 60;
+    return { x: minX, y: minY, w: maxX - minX, h: maxY - minY };
+  }
+
+  function wrapSvgText(text, x, y, maxChars, lineHeight, cls) {
+    const words = String(text || &quot;&quot;).split(/\s+/).filter(Boolean);
+    const lines = [];
+    let line = &quot;&quot;;
+    words.forEach((word) =&gt; {
+      const next = line ? `${line} ${word}` : word;
+      if (next.length &gt; maxChars &amp;&amp; line) {
+        lines.push(line);
+        line = word;
+      } else {
+        line = next;
+      }
+    });
+    if (line) lines.push(line);
+    return lines.slice(0, 5).map((value, index) =&gt; `&lt;text class=&quot;${cls}&quot; x=&quot;${x}&quot; y=&quot;${y + index * lineHeight}&quot;&gt;${escapeHtml(value)}&lt;/text&gt;`).join(&quot;&quot;);
+  }
+
+  function buildSnapshotSvg(bounds) {
+    const links = state.links.map((link) =&gt; {
+      const from = getNode(link.from);
+      const to = getNode(link.to);
+      if (!from || !to) return &quot;&quot;;
+      const color = colors[from.color] || colors.plum;
+      const a = portPosition(link.from, link.fromPort);
+      const b = portPosition(link.to, link.toPort);
+      const path = linkPath({ x: a.x - bounds.x, y: a.y - bounds.y }, { x: b.x - bounds.x, y: b.y - bounds.y }, link.fromPort, link.toPort);
+      return `&lt;path d=&quot;${path}&quot; fill=&quot;none&quot; stroke=&quot;${color.stroke}&quot; stroke-width=&quot;2.4&quot; stroke-linecap=&quot;round&quot; marker-end=&quot;url(#arrowSnap)&quot; opacity=&quot;.72&quot;/&gt;`;
+    }).join(&quot;&quot;);
+    const nodes = state.nodes.map((node) =&gt; {
+      const color = colors[node.color] || colors.plum;
+      const radius = node.shape === &quot;sharp&quot; ? 4 : node.shape === &quot;pill&quot; ? 22 : 8;
+      const x = node.x - bounds.x;
+      const y = node.y - bounds.y;
+      const maxChars = Math.max(12, Math.floor((node.w - 28) / 7));
+      return `
+        &lt;g&gt;
+          &lt;rect x=&quot;${x}&quot; y=&quot;${y}&quot; width=&quot;${node.w}&quot; height=&quot;${node.h}&quot; rx=&quot;${radius}&quot; fill=&quot;${color.bg}&quot; stroke=&quot;${color.line}&quot; stroke-width=&quot;${node.type === &quot;main&quot; ? 2.2 : 1.6}&quot;/&gt;
+          ${wrapSvgText(node.title, x + 14, y + 25, maxChars, 16, &quot;title&quot;)}
+          ${wrapSvgText(node.note, x + 14, y + 50, maxChars + 5, 15, &quot;note&quot;)}
+        &lt;/g&gt;
+      `;
+    }).join(&quot;&quot;);
+    return `&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; width=&quot;${Math.ceil(bounds.w)}&quot; height=&quot;${Math.ceil(bounds.h)}&quot; viewBox=&quot;0 0 ${Math.ceil(bounds.w)} ${Math.ceil(bounds.h)}&quot;&gt;
+      &lt;defs&gt;&lt;marker id=&quot;arrowSnap&quot; markerWidth=&quot;9&quot; markerHeight=&quot;9&quot; refX=&quot;7&quot; refY=&quot;4.5&quot; orient=&quot;auto&quot;&gt;&lt;path d=&quot;M1 1 L8 4.5 L1 8 Z&quot; fill=&quot;#7256ad&quot; opacity=&quot;.62&quot;/&gt;&lt;/marker&gt;&lt;/defs&gt;
+      &lt;style&gt;.title{font:700 14px system-ui,sans-serif;fill:#211b24}.note{font:12px system-ui,sans-serif;fill:#6f6574}&lt;/style&gt;
+      &lt;rect width=&quot;100%&quot; height=&quot;100%&quot; fill=&quot;#fbfaf7&quot;/&gt;
+      ${links}
+      ${nodes}
+    &lt;/svg&gt;`;
+  }
+
+  function importFile(file) {
+    const reader = new FileReader();
+    reader.onload = () =&gt; {
+      try {
+        const parsed = JSON.parse(reader.result);
+        const saved = parsed.state || parsed;
+        state.nodes = Array.isArray(saved.nodes) ? saved.nodes : [];
+        state.links = Array.isArray(saved.links) ? saved.links : [];
+        state.tasks = Array.isArray(saved.tasks) ? saved.tasks : [];
+        state.nextNode = saved.nextNode || state.nodes.length + 1;
+        state.nextLink = saved.nextLink || state.links.length + 1;
+        state.nextTask = saved.nextTask || state.tasks.length + 1;
+        state.pan = saved.pan || state.pan;
+        state.scale = saved.scale || state.scale;
+        state.grid = saved.grid !== false;
+        saveNow();
+        renderAll();
+        renderPlanner();
+        toast(&quot;Sheet imported&quot;);
+      } catch {
+        toast(&quot;Could not import this file&quot;);
+      }
+    };
+    reader.readAsText(file);
+  }
+
+  function renderPlanner() {
+    els.monthTitle.textContent = state.month.toLocaleDateString(undefined, { month: &quot;long&quot;, year: &quot;numeric&quot; });
+    document.querySelectorAll(&quot;[data-plan-view]&quot;).forEach((button) =&gt; button.classList.toggle(&quot;active&quot;, button.dataset.planView === state.plannerView));
+    renderMiniCal();
+    renderProgress();
+    els.plannerScroll.innerHTML = &quot;&quot;;
+    if (state.plannerView === &quot;week&quot;) renderWeek();
+    if (state.plannerView === &quot;month&quot;) renderMonth();
+    if (state.plannerView === &quot;agenda&quot;) renderAgenda();
+  }
+
+  function filteredTasks() {
+    return state.tasks.filter((task) =&gt; state.activeTag === &quot;all&quot; || task.tag === state.activeTag);
+  }
+
+  function renderWeek() {
+    const today = new Date();
+    const start = new Date(today);
+    start.setDate(today.getDate() - today.getDay());
+    const grid = document.createElement(&quot;div&quot;);
+    grid.className = &quot;week-grid&quot;;
+    for (let i = 0; i &lt; 7; i++) {
+      const day = new Date(start);
+      day.setDate(start.getDate() + i);
+      const date = isoDate(day);
+      const box = document.createElement(&quot;section&quot;);
+      box.className = `day ${date === isoDate(today) ? &quot;today&quot; : &quot;&quot;}`;
+      box.innerHTML = `
+        &lt;div class=&quot;day-head&quot;&gt;
+          &lt;div class=&quot;day-name&quot;&gt;${day.toLocaleDateString(undefined, { weekday: &quot;short&quot; })}&lt;/div&gt;
+          &lt;div class=&quot;day-num&quot;&gt;${day.getDate()}&lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;task-list&quot;&gt;
+          ${filteredTasks().filter((task) =&gt; task.date === date).map(taskHtml).join(&quot;&quot;)}
+          &lt;button class=&quot;day-add&quot; data-add-task-date=&quot;${date}&quot;&gt;Add task&lt;/button&gt;
+        &lt;/div&gt;
+      `;
+      grid.appendChild(box);
+    }
+    els.plannerScroll.appendChild(grid);
+  }
+
+  function renderMonth() {
+    const year = state.month.getFullYear();
+    const month = state.month.getMonth();
+    const first = new Date(year, month, 1).getDay();
+    const days = new Date(year, month + 1, 0).getDate();
+    const today = isoDate(new Date());
+    const grid = document.createElement(&quot;div&quot;);
+    grid.className = &quot;month-grid&quot;;
+    [&quot;Sun&quot;, &quot;Mon&quot;, &quot;Tue&quot;, &quot;Wed&quot;, &quot;Thu&quot;, &quot;Fri&quot;, &quot;Sat&quot;].forEach((day) =&gt; {
+      const label = document.createElement(&quot;div&quot;);
+      label.className = &quot;month-label&quot;;
+      label.textContent = day;
+      grid.appendChild(label);
+    });
+    for (let i = 0; i &lt; first; i++) {
+      const empty = document.createElement(&quot;div&quot;);
+      empty.className = &quot;month-cell outside&quot;;
+      grid.appendChild(empty);
+    }
+    for (let d = 1; d &lt;= days; d++) {
+      const dateObj = new Date(year, month, d);
+      const date = isoDate(dateObj);
+      const tasks = filteredTasks().filter((task) =&gt; task.date === date);
+      const cell = document.createElement(&quot;button&quot;);
+      cell.className = `month-cell ${date === today ? &quot;today&quot; : &quot;&quot;}`;
+      cell.dataset.addTaskDate = date;
+      cell.innerHTML = `&lt;div class=&quot;month-date&quot;&gt;${d}&lt;/div&gt;&lt;div class=&quot;dots&quot;&gt;${tasks.slice(0, 8).map((task) =&gt; `&lt;span class=&quot;dot&quot; style=&quot;--dot:${colors[task.color]?.stroke || colors.plum.stroke}&quot;&gt;&lt;/span&gt;`).join(&quot;&quot;)}&lt;/div&gt;`;
+      grid.appendChild(cell);
+    }
+    els.plannerScroll.appendChild(grid);
+  }
+
+  function renderAgenda() {
+    const wrap = document.createElement(&quot;div&quot;);
+    wrap.className = &quot;agenda&quot;;
+    const groups = {};
+    filteredTasks().forEach((task) =&gt; {
+      const key = task.date || &quot;No date&quot;;
+      groups[key] ||= [];
+      groups[key].push(task);
+    });
+    const keys = Object.keys(groups).sort();
+    if (!keys.length) {
+      wrap.innerHTML = `&lt;div class=&quot;hint&quot;&gt;No tasks yet. Add one from the top button.&lt;/div&gt;`;
+    }
+    keys.forEach((key) =&gt; {
+      const section = document.createElement(&quot;section&quot;);
+      section.className = &quot;agenda-card&quot;;
+      const label = key === &quot;No date&quot; ? key : new Date(`${key}T12:00:00`).toLocaleDateString(undefined, { weekday: &quot;long&quot;, month: &quot;long&quot;, day: &quot;numeric&quot; });
+      section.innerHTML = `&lt;div class=&quot;agenda-date&quot;&gt;${label}&lt;/div&gt;&lt;div class=&quot;task-list&quot;&gt;${groups[key].map(taskHtml).join(&quot;&quot;)}&lt;/div&gt;`;
+      wrap.appendChild(section);
+    });
+    els.plannerScroll.appendChild(wrap);
+  }
+
+  function taskHtml(task) {
+    const color = colors[task.color] || colors.plum;
+    return `
+      &lt;div class=&quot;task ${task.done ? &quot;done&quot; : &quot;&quot;}&quot; style=&quot;--task-bg:${color.bg};--task-text:${color.text}&quot;&gt;
+        &lt;button class=&quot;check&quot; data-toggle-task=&quot;${task.id}&quot; aria-label=&quot;Toggle task&quot;&gt;&lt;/button&gt;
+        &lt;div class=&quot;task-name&quot;&gt;${escapeHtml(task.name)}&lt;/div&gt;
+        &lt;button class=&quot;task-del&quot; data-delete-task=&quot;${task.id}&quot; aria-label=&quot;Delete task&quot;&gt;x&lt;/button&gt;
+      &lt;/div&gt;
+    `;
+  }
+
+  function renderMiniCal() {
+    const year = state.month.getFullYear();
+    const month = state.month.getMonth();
+    const first = new Date(year, month, 1).getDay();
+    const days = new Date(year, month + 1, 0).getDate();
+    const today = isoDate(new Date());
+    let html = [&quot;S&quot;, &quot;M&quot;, &quot;T&quot;, &quot;W&quot;, &quot;T&quot;, &quot;F&quot;, &quot;S&quot;].map((label) =&gt; `&lt;div class=&quot;mini-label&quot;&gt;${label}&lt;/div&gt;`).join(&quot;&quot;);
+    for (let i = 0; i &lt; first; i++) html += &quot;&lt;div&gt;&lt;/div&gt;&quot;;
+    for (let d = 1; d &lt;= days; d++) {
+      const date = isoDate(new Date(year, month, d));
+      html += `&lt;div class=&quot;${date === today ? &quot;today&quot; : &quot;&quot;}&quot;&gt;${d}&lt;/div&gt;`;
+    }
+    els.miniCal.innerHTML = html;
+  }
+
+  function renderProgress() {
+    const year = state.month.getFullYear();
+    const month = state.month.getMonth();
+    const monthTasks = state.tasks.filter((task) =&gt; {
+      if (!task.date) return false;
+      const date = new Date(`${task.date}T12:00:00`);
+      return date.getFullYear() === year &amp;&amp; date.getMonth() === month;
+    });
+    const done = monthTasks.filter((task) =&gt; task.done).length;
+    const pct = monthTasks.length ? Math.round(done / monthTasks.length * 100) : 0;
+    els.progressText.textContent = `${done} of ${monthTasks.length} done`;
+    els.progressFill.style.width = `${pct}%`;
+  }
+
+  function openWizard() {
+    wizardType = &quot;main&quot;;
+    wizardColor = &quot;plum&quot;;
+    document.getElementById(&quot;wizardTitleInput&quot;).value = &quot;&quot;;
+    
+    // Reset wizard view state
+    document.getElementById(&quot;wizardStepTitle&quot;).textContent = &quot;Block Step 1: Select Type&quot;;
+    document.getElementById(&quot;wizardStep1&quot;).style.display = &quot;block&quot;;
+    document.getElementById(&quot;wizardStep2&quot;).style.display = &quot;none&quot;;
+    
+    // Toggle active classes inside wizard segment
+    document.querySelectorAll(&quot;#wizardTypeSeg button&quot;).forEach(b =&gt; {
+      b.classList.toggle(&quot;active&quot;, b.dataset.wtype === wizardType);
+    });
+    
+    renderWizardColors();
+    els.nodeWizardModal.classList.add(&quot;show&quot;);
+  }
+
+  function renderWizardColors() {
+    const container = document.getElementById(&quot;wizardColorChoices&quot;);
+    container.innerHTML = Object.entries(colors).map(([key, color]) =&gt; `&lt;button class=&quot;swatch ${wizardColor === key ? &quot;active&quot; : &quot;&quot;}&quot; data-wcolor=&quot;${key}&quot; title=&quot;${color.name}&quot; style=&quot;background:${color.bg};border-color:${wizardColor === key ? color.stroke : &quot;transparent&quot;}&quot;&gt;&lt;/button&gt;`).join(&quot;&quot;);
+  }
+
+  function openTaskModal(date = isoDate(new Date()), sourceNode = null) {
+    editingTask = null;
+    els.taskName.value = sourceNode?.title || &quot;&quot;;
+    els.taskDate.value = date;
+    els.taskTag.value = sourceNode?.type === &quot;task&quot; ? &quot;work&quot; : &quot;life&quot;;
+    taskColor = sourceNode?.color || &quot;plum&quot;;
+    renderTaskColors();
+    els.taskModal.classList.add(&quot;show&quot;);
+    setTimeout(() =&gt; els.taskName.focus(), 60);
+  }
+
+  function closeTaskModal() {
+    els.taskModal.classList.remove(&quot;show&quot;);
+  }
+
+  function renderTaskColors() {
+    els.taskColorChoices.innerHTML = Object.entries(colors).map(([key, color]) =&gt; `&lt;button class=&quot;swatch ${taskColor === key ? &quot;active&quot; : &quot;&quot;}&quot; data-task-color=&quot;${key}&quot; title=&quot;${color.name}&quot; style=&quot;background:${color.bg};border-color:${taskColor === key ? color.stroke : &quot;transparent&quot;}&quot;&gt;&lt;/button&gt;`).join(&quot;&quot;);
+  }
+
+  function saveTask() {
+    const name = els.taskName.value.trim();
+    if (!name) return;
+    state.tasks.push({
+      id: uid(&quot;task&quot;, &quot;nextTask&quot;),
+      name,
+      date: els.taskDate.value || isoDate(new Date()),
+      tag: els.taskTag.value,
+      color: taskColor,
+      done: false
+    });
+    closeTaskModal();
+    renderPlanner();
+    saveSoon();
+    toast(&quot;Task saved&quot;);
+  }
+
+  function toast(message) {
+    els.toast.textContent = message;
+    els.toast.classList.add(&quot;show&quot;);
+    clearTimeout(toast.timer);
+    toast.timer = setTimeout(() =&gt; els.toast.classList.remove(&quot;show&quot;), 1800);
+  }
+
+  function attachEvents() {
+    document.querySelectorAll(&quot;[data-view-button]&quot;).forEach((button) =&gt; button.addEventListener(&quot;click&quot;, () =&gt; setView(button.dataset.viewButton)));
+    
+    document.getElementById(&quot;primaryAddBtn&quot;).addEventListener(&quot;click&quot;, () =&gt; {
+      if (state.view === &quot;brainstorm&quot;) openWizard();
+      else openTaskModal();
+    });
+
+    // Wizard Workflow Navigation
+    document.getElementById(&quot;wizardTypeSeg&quot;).addEventListener(&quot;click&quot;, (e) =&gt; {
+      const btn = e.target.closest(&quot;button&quot;);
+      if (!btn) return;
+      wizardType = btn.dataset.wtype;
+      document.querySelectorAll(&quot;#wizardTypeSeg button&quot;).forEach(b =&gt; b.classList.toggle(&quot;active&quot;, b === btn));
+    });
+
+    document.getElementById(&quot;wizardColorChoices&quot;).addEventListener(&quot;click&quot;, (e) =&gt; {
+      const btn = e.target.closest(&quot;button&quot;);
+      if (!btn) return;
+      wizardColor = btn.dataset.wcolor;
+      renderWizardColors();
+    });
+
+    document.getElementById(&quot;nextWizardBtn&quot;).addEventListener(&quot;click&quot;, () =&gt; {
+      document.getElementById(&quot;wizardStepTitle&quot;).textContent = &quot;Block Step 2: Custom details&quot;;
+      document.getElementById(&quot;wizardStep1&quot;).style.display = &quot;none&quot;;
+      document.getElementById(&quot;wizardStep2&quot;).style.display = &quot;block&quot;;
+      setTimeout(() =&gt; document.getElementById(&quot;wizardTitleInput&quot;).focus(), 60);
+    });
+
+    document.getElementById(&quot;backWizardBtn&quot;).addEventListener(&quot;click&quot;, () =&gt; {
+      document.getElementById(&quot;wizardStepTitle&quot;).textContent = &quot;Block Step 1: Select Type&quot;;
+      document.getElementById(&quot;wizardStep1&quot;).style.display = &quot;block&quot;;
+      document.getElementById(&quot;wizardStep2&quot;).style.display = &quot;none&quot;;
+    });
+
+    document.getElementById(&quot;closeWizardBtn&quot;).addEventListener(&quot;click&quot;, () =&gt; {
+      els.nodeWizardModal.classList.remove(&quot;show&quot;);
+    });
+
+    document.getElementById(&quot;createWizardBtn&quot;).addEventListener(&quot;click&quot;, () =&gt; {
+      const title = document.getElementById(&quot;wizardTitleInput&quot;).value.trim();
+      addNode({
+        type: wizardType,
+        title: title || (&quot;New &quot; + wizardType.charAt(0).toUpperCase() + wizardType.slice(1)),
+        color: wizardColor,
+        isCustomSize: false // Automatically sets proportional sizing relative to text inputs
+      });
+      els.nodeWizardModal.classList.remove(&quot;show&quot;);
+    });
+
+    document.getElementById(&quot;selectTool&quot;).addEventListener(&quot;click&quot;, () =&gt; setTool(&quot;select&quot;));
+    document.getElementById(&quot;connectTool&quot;).addEventListener(&quot;click&quot;, () =&gt; setTool(&quot;connect&quot;));
+    document.getElementById(&quot;fitBtn&quot;).addEventListener(&quot;click&quot;, fitView);
+    document.getElementById(&quot;zoomInBtn&quot;).addEventListener(&quot;click&quot;, () =&gt; zoom(.12));
+    document.getElementById(&quot;zoomOutBtn&quot;).addEventListener(&quot;click&quot;, () =&gt; zoom(-.12));
+    
+    document.getElementById(&quot;downloadBtn&quot;).addEventListener(&quot;click&quot;, (e) =&gt; {
+      e.stopPropagation();
+      els.downloadMenu.classList.toggle(&quot;show&quot;);
+    });
+    document.getElementById(&quot;downloadSheetBtn&quot;).addEventListener(&quot;click&quot;, () =&gt; {
+      els.downloadMenu.classList.remove(&quot;show&quot;);
+      downloadJson();
+    });
+    document.getElementById(&quot;downloadImageBtn&quot;).addEventListener(&quot;click&quot;, () =&gt; {
+      els.downloadMenu.classList.remove(&quot;show&quot;);
+      downloadImage();
+    });
+    document.getElementById(&quot;importBtn&quot;).addEventListener(&quot;click&quot;, () =&gt; els.fileInput.click());
+    els.fileInput.addEventListener(&quot;change&quot;, () =&gt; {
+      if (els.fileInput.files[0]) importFile(els.fileInput.files[0]);
+      els.fileInput.value = &quot;&quot;;
+    });
+
+    // Close on mobile back/toggle action
+    document.getElementById(&quot;sheetToggle&quot;).addEventListener(&quot;click&quot;, (e) =&gt; {
+      e.stopPropagation();
+      closeInspector();
+    });
+
+    els.canvasWorld.addEventListener(&quot;pointerdown&quot;, (e) =&gt; {
+      const nodeEl = e.target.closest(&quot;.node&quot;);
+      if (!nodeEl) return;
+      const node = getNode(nodeEl.dataset.id);
+      if (!node) return;
+      
+      if (e.target.closest(&quot;.port&quot;)) {
+        if (state.tool !== &quot;connect&quot;) setTool(&quot;connect&quot;);
+        startDraft(node.id, e.target.closest(&quot;.port&quot;).dataset.port, e);
+        return;
+      }
+      
+      // Auto-fallback mechanics from Connect to Move Mode when clicking nodes
+      if (state.tool === &quot;connect&quot;) {
+        setTool(&quot;select&quot;);
+        selectNode(node.id);
+        return;
+      }
+
+      if (e.target.closest(&quot;.resize-corner&quot;)) {
+        node.isCustomSize = true; // Enforces tracking standard locks if manual adjust triggers
+        resize = { node, startX: e.clientX, startY: e.clientY, w: node.w, h: node.h };
+        nodeEl.setPointerCapture(e.pointerId);
+        e.preventDefault();
+        return;
+      }
+
+      selectNode(node.id);
+      node.z = ++state.nextNode;
+      const point = pointerWorld(e);
+      drag = { node, offsetX: point.x - node.x, offsetY: point.y - node.y, pointerId: e.pointerId };
+      nodeEl.setPointerCapture(e.pointerId);
+      e.preventDefault();
+    });
+
+    els.canvasShell.addEventListener(&quot;pointerdown&quot;, (e) =&gt; {
+      if (e.target.closest(&quot;.node&quot;) || e.target.closest(&quot;.toolrail&quot;) || e.target.closest(&quot;.floating-bar&quot;) || e.target.closest(&quot;.modal-shade&quot;)) return;
+      
+      // Dynamic fallback mechanics when clicking open areas
+      if (state.tool === &quot;connect&quot;) {
+        setTool(&quot;select&quot;);
+        return;
+      }
+      
+      if (state.tool === &quot;select&quot;) {
+        panDrag = { startX: e.clientX, startY: e.clientY, x: state.pan.x, y: state.pan.y, pointerId: e.pointerId };
+        els.canvasShell.setPointerCapture(e.pointerId);
+      }
+      selectNode(null);
+    });
+
+    window.addEventListener(&quot;pointermove&quot;, (e) =&gt; {
+      if (drag) {
+        const point = pointerWorld(e);
+        drag.node.x = point.x - drag.offsetX;
+        drag.node.y = point.y - drag.offsetY;
+        renderNodes();
+        drawLinks();
+      } else if (resize) {
+        // Enforcing safety clamps on minimum proportions to stop flooding bugs
+        resize.node.w = clamp(resize.w + (e.clientX - resize.startX) / state.scale, 140, 480);
+        resize.node.h = clamp(resize.h + (e.clientY - resize.startY) / state.scale, 80, 400);
+        renderNodes();
+        drawLinks();
+        renderInspector();
+      } else if (panDrag) {
+        state.pan.x = panDrag.x + e.clientX - panDrag.startX;
+        state.pan.y = panDrag.y + e.clientY - panDrag.startY;
+        applyTransform();
+      } else if (connectDraft) {
+        const start = portPosition(connectDraft.nodeId, connectDraft.port);
+        const point = pointerWorld(e);
+        els.draftConnection.setAttribute(&quot;d&quot;, `M ${start.x} ${start.y} L ${point.x} ${point.y}`);
+      }
+    }, { passive: false });
+
+    window.addEventListener(&quot;pointerup&quot;, (e) =&gt; {
+      if (drag || resize || panDrag) saveSoon();
+      drag = null;
+      resize = null;
+      panDrag = null;
+      if (connectDraft) {
+        const target = document.elementFromPoint(e.clientX, e.clientY)?.closest(&quot;.port&quot;);
+        if (target) {
+          const nodeEl = target.closest(&quot;.node&quot;);
+          addConnection(connectDraft.nodeId, connectDraft.port, nodeEl.dataset.id, target.dataset.port);
+        }
+        connectDraft = null;
+        els.draftConnection.style.display = &quot;none&quot;;
+        document.querySelectorAll(&quot;.port&quot;).forEach((el) =&gt; el.classList.remove(&quot;armed&quot;));
+        setTool(&quot;select&quot;); // Drops straight into select layout once path closes
+      }
+    });
+
+    els.canvasShell.addEventListener(&quot;wheel&quot;, (e) =&gt; {
+      e.preventDefault();
+      zoom(e.deltaY &gt; 0 ? -.08 : .08);
+    }, { passive: false });
+
+    els.inspectorBody.addEventListener(&quot;input&quot;, (e) =&gt; {
+      const node = selectedNode();
+      if (!node) return;
+      if (e.target.id === &quot;nodeTitle&quot;) {
+        node.title = e.target.value;
+        renderNodes();
+        drawLinks();
+        saveSoon();
+      }
+      if (e.target.id === &quot;nodeNote&quot;) {
+        node.note = e.target.value;
+        renderNodes();
+        drawLinks();
+        saveSoon();
+      }
+      if (e.target.id === &quot;nodeWidth&quot; || e.target.id === &quot;nodeWidthText&quot;) {
+        node.w = clamp(Number(e.target.value) || node.w, 140, 480);
+        node.isCustomSize = true;
+        const range = document.getElementById(&quot;nodeWidth&quot;);
+        const text = document.getElementById(&quot;nodeWidthText&quot;);
+        if (range &amp;&amp; range !== e.target) range.value = node.w;
+        if (text &amp;&amp; text !== e.target) text.value = node.w;
+        renderNodes();
+        drawLinks();
+        saveSoon();
+      }
+    });
+
+    els.inspectorBody.addEventListener(&quot;click&quot;, (e) =&gt; {
+      const type = e.target.closest(&quot;[data-node-type]&quot;);
+      if (type) updateSelected({ type: type.dataset.nodeType });
+      const shape = e.target.closest(&quot;[data-node-shape]&quot;);
+      if (shape) updateSelected({ shape: shape.dataset.nodeShape });
+      const color = e.target.closest(&quot;[data-node-color]&quot;);
+      if (color) updateSelected({ color: color.dataset.nodeColor });
+      
+      if (e.target.closest(&quot;#duplicateNodeBtn&quot;)) duplicateSelected();
+      if (e.target.closest(&quot;#deleteNodeBtn&quot;)) deleteSelected();
+      if (e.target.closest(&quot;#bringFrontBtn&quot;)) {
+        const node = selectedNode();
+        if (node) updateSelected({ z: ++state.nextNode });
+      }
+      if (e.target.closest(&quot;#makeTaskBtn&quot;)) {
+        const node = selectedNode();
+        if (node) openTaskModal(isoDate(new Date()), node);
+      }
+    });
+
+    document.querySelectorAll(&quot;[data-type-filter]&quot;).forEach((button) =&gt; {
+      button.addEventListener(&quot;click&quot;, () =&gt; {
+        state.filterType = button.dataset.typeFilter;
+        document.querySelectorAll(&quot;[data-type-filter]&quot;).forEach((item) =&gt; item.classList.toggle(&quot;active&quot;, item === button));
+        renderAll();
+      });
+    });
+
+    document.getElementById(&quot;prevMonthBtn&quot;).addEventListener(&quot;click&quot;, () =&gt; {
+      state.month = new Date(state.month.getFullYear(), state.month.getMonth() - 1, 1);
+      renderPlanner();
+    });
+    document.getElementById(&quot;nextMonthBtn&quot;).addEventListener(&quot;click&quot;, () =&gt; {
+      state.month = new Date(state.month.getFullYear(), state.month.getMonth() + 1, 1);
+      renderPlanner();
+    });
+    document.getElementById(&quot;addTaskTopBtn&quot;).addEventListener(&quot;click&quot;, () =&gt; openTaskModal());
+    document.querySelectorAll(&quot;[data-plan-view]&quot;).forEach((button) =&gt; button.addEventListener(&quot;click&quot;, () =&gt; {
+      state.plannerView = button.dataset.planView;
+      renderPlanner();
+    }));
+
+    document.getElementById(&quot;tagFilters&quot;).addEventListener(&quot;click&quot;, (e) =&gt; {
+      const button = e.target.closest(&quot;[data-tag]&quot;);
+      if (!button) return;
+      state.activeTag = button.dataset.tag;
+      document.querySelectorAll(&quot;[data-tag]&quot;).forEach((item) =&gt; item.classList.toggle(&quot;active&quot;, item === button));
+      renderPlanner();
+    });
+
+    els.plannerScroll.addEventListener(&quot;click&quot;, (e) =&gt; {
+      const addDate = e.target.closest(&quot;[data-add-task-date]&quot;);
+      if (addDate) openTaskModal(addDate.dataset.addTaskDate);
+      const toggle = e.target.closest(&quot;[data-toggle-task]&quot;);
+      if (toggle) {
+        const task = state.tasks.find((item) =&gt; item.id === toggle.dataset.toggleTask);
+        if (task) task.done = !task.done;
+        renderPlanner();
+        saveSoon();
+      }
+      const del = e.target.closest(&quot;[data-delete-task]&quot;);
+      if (del) {
+        state.tasks = state.tasks.filter((item) =&gt; item.id !== del.dataset.deleteTask);
+        renderPlanner();
+        saveSoon();
+      }
+    });
+
+    els.taskColorChoices.addEventListener(&quot;click&quot;, (e) =&gt; {
+      const button = e.target.closest(&quot;[data-task-color]&quot;);
+      if (!button) return;
+      taskColor = button.dataset.taskColor;
+      renderTaskColors();
+    });
+
+    document.getElementById(&quot;cancelTaskBtn&quot;).addEventListener(&quot;click&quot;, closeTaskModal);
+    document.getElementById(&quot;saveTaskBtn&quot;).addEventListener(&quot;click&quot;, saveTask);
+    
+    // Background light tap drops modal shades
+    els.taskModal.addEventListener(&quot;click&quot;, (e) =&gt; {
+      if (e.target === els.taskModal) closeTaskModal();
+    });
+    els.nodeWizardModal.addEventListener(&quot;click&quot;, (e) =&gt; {
+      if (e.target === els.nodeWizardModal) els.nodeWizardModal.classList.remove(&quot;show&quot;);
+    });
+
+    els.taskName.addEventListener(&quot;keydown&quot;, (e) =&gt; {
+      if (e.key === &quot;Enter&quot;) saveTask();
+    });
+
+    window.addEventListener(&quot;keydown&quot;, (e) =&gt; {
+      if ([&quot;INPUT&quot;, &quot;TEXTAREA&quot;, &quot;SELECT&quot;].includes(document.activeElement.tagName)) return;
+      if (e.key === &quot;Escape&quot;) {
+        setTool(&quot;select&quot;);
+        closeTaskModal();
+        closeInspector();
+        els.nodeWizardModal.classList.remove(&quot;show&quot;);
+      }
+      if ((e.key === &quot;Delete&quot; || e.key === &quot;Backspace&quot;) &amp;&amp; state.selectedNode) deleteSelected();
+      if (e.key.toLowerCase() === &quot;n&quot; &amp;&amp; state.view === &quot;brainstorm&quot;) openWizard();
+      if (e.key.toLowerCase() === &quot;c&quot; &amp;&amp; state.view === &quot;brainstorm&quot;) setTool(&quot;connect&quot;);
+      if (e.key.toLowerCase() === &quot;s&quot; &amp;&amp; state.view === &quot;brainstorm&quot;) setTool(&quot;select&quot;);
+      if (e.key.toLowerCase() === &quot;f&quot; &amp;&amp; state.view === &quot;brainstorm&quot;) fitView();
+    });
+
+    document.addEventListener(&quot;click&quot;, (e) =&gt; {
+      if (!e.target.closest(&quot;#downloadMenu&quot;) &amp;&amp; !e.target.closest(&quot;#downloadBtn&quot;)) {
+        els.downloadMenu.classList.remove(&quot;show&quot;);
+      }
+    });
+
+    window.addEventListener(&quot;resize&quot;, () =&gt; {
+      drawLinks();
+    });
+  }
+
+  function init() {
+    if (!loadSaved()) seedData();
+    attachEvents();
+    renderTaskColors();
+    renderAll();
+    renderPlanner();
+    saveSoon();
+  }
+
+  init();
+})();
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+</body>
+</html>
