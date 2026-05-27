@@ -1,0 +1,2533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#fbfaf7">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Petal">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<title>Petal - Brainstorm & Planner</title>
+<style>
+:root {
+  --paper: #fbfaf7;
+  --surface: #ffffff;
+  --surface-soft: #f4f0ec;
+  --ink: #211b24;
+  --ink-soft: #6f6574;
+  --ink-faint: #a8a0aa;
+  --line: rgba(33, 27, 36, .10);
+  --line-strong: rgba(33, 27, 36, .18);
+  --rose: #e9a5b8;
+  --rose-soft: #faedf1;
+  --plum: #8a6bc0;
+  --plum-soft: #f0ebfa;
+  --sage: #8cb99e;
+  --sage-soft: #edf6f0;
+  --sky: #79aad1;
+  --sky-soft: #edf6fc;
+  --honey: #d8a35a;
+  --honey-soft: #fbf3e5;
+  --clay: #d98772;
+  --clay-soft: #fbefeb;
+  --accent: #7256ad;
+  --danger: #c75767;
+  --shadow: 0 12px 36px rgba(36, 27, 43, .10);
+  --shadow-soft: 0 5px 18px rgba(36, 27, 43, .08);
+  --r: 8px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+}
+
+body {
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: var(--ink);
+  background: var(--paper);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+button, input, textarea, select {
+  font: inherit;
+}
+
+button {
+  border: 0;
+  cursor: pointer;
+}
+
+.app {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+
+.topbar {
+  height: 62px;
+  padding: 0 max(14px, env(safe-area-inset-left)) 0 max(14px, env(safe-area-inset-right));
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: rgba(255, 255, 255, .92);
+  border-bottom: 1px solid var(--line);
+  backdrop-filter: blur(18px);
+  z-index: 40;
+}
+
+.brand {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-weight: 740;
+  letter-spacing: .01em;
+}
+
+.brand-mark {
+  width: 24px;
+  height: 24px;
+  border-radius: 8px;
+  background:
+    radial-gradient(circle at 35% 35%, #fff 0 12%, transparent 13%),
+    linear-gradient(135deg, var(--rose), var(--plum) 58%, var(--sky));
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.55), 0 5px 14px rgba(114,86,173,.22);
+  flex: 0 0 auto;
+}
+
+.brand small {
+  display: block;
+  color: var(--ink-faint);
+  font-weight: 620;
+  font-size: 10px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+
+.tabs {
+  display: flex;
+  gap: 4px;
+  padding: 4px;
+  background: var(--surface-soft);
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  margin-left: auto;
+}
+
+.tab {
+  height: 34px;
+  padding: 0 14px;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--ink-soft);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.tab.active {
+  background: var(--surface);
+  color: var(--ink);
+  box-shadow: var(--shadow-soft);
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  position: relative;
+}
+
+.icon-btn, .soft-btn, .dark-btn {
+  height: 38px;
+  border-radius: var(--r);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  white-space: nowrap;
+  transition: transform .16s ease, border-color .16s ease, background .16s ease;
+}
+
+.icon-btn {
+  width: 38px;
+  color: var(--ink-soft);
+  background: var(--surface);
+  border: 1px solid var(--line);
+}
+
+.soft-btn {
+  padding: 0 12px;
+  color: var(--ink);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  font-weight: 720;
+  font-size: 13px;
+}
+
+.dark-btn {
+  padding: 0 14px;
+  color: #fff;
+  background: var(--ink);
+  font-weight: 760;
+  font-size: 13px;
+}
+
+.icon-btn:hover, .soft-btn:hover, .dark-btn:hover {
+  transform: translateY(-1px);
+}
+
+.transfer-menu {
+  position: absolute;
+  right: 48px;
+  top: 46px;
+  width: 178px;
+  padding: 6px;
+  display: none;
+  flex-direction: column;
+  gap: 4px;
+  background: rgba(255,255,255,.96);
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  box-shadow: var(--shadow);
+  z-index: 70;
+}
+
+.transfer-menu.show {
+  display: flex;
+}
+
+.menu-item {
+  min-height: 38px;
+  padding: 0 10px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  background: transparent;
+  color: var(--ink);
+  font-size: 13px;
+  font-weight: 760;
+  text-align: left;
+}
+
+.menu-item:hover {
+  background: var(--surface-soft);
+}
+
+.view {
+  flex: 1;
+  min-height: 0;
+  display: none;
+}
+
+.view.active {
+  display: flex;
+}
+
+.brainstorm {
+  position: relative;
+  min-width: 0;
+}
+
+.toolrail {
+  width: 58px;
+  padding: 10px 8px;
+  background: rgba(255,255,255,.88);
+  border-right: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  z-index: 25;
+}
+
+.tool {
+  width: 42px;
+  height: 42px;
+  color: var(--ink-soft);
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--r);
+  display: grid;
+  place-items: center;
+}
+
+.tool.active, .tool:hover {
+  color: var(--accent);
+  background: var(--plum-soft);
+  border-color: rgba(114,86,173,.18);
+}
+
+.tool-sep {
+  height: 1px;
+  width: 28px;
+  background: var(--line);
+  margin: 4px auto;
+}
+
+.canvas-shell {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  touch-action: none;
+  background:
+    radial-gradient(circle, rgba(33,27,36,.085) 1px, transparent 1.5px) 0 0 / 26px 26px,
+    linear-gradient(180deg, #fbfaf7, #f7f3ef);
+}
+
+.canvas-shell.hide-grid {
+  background: linear-gradient(180deg, #fbfaf7, #f7f3ef);
+}
+
+.connection-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+  overflow: visible;
+}
+
+.canvas-world {
+  position: absolute;
+  inset: 0;
+  z-index: 6;
+  transform-origin: 0 0;
+}
+
+.node {
+  position: absolute;
+  min-width: 140px;
+  min-height: 80px;
+  height: auto;
+  border: 1.5px solid var(--node-line);
+  background: var(--node-bg);
+  color: var(--node-text);
+  border-radius: var(--node-radius);
+  box-shadow: 0 4px 14px rgba(40, 28, 45, .06);
+  user-select: none;
+  cursor: grab;
+  display: flex;
+  flex-direction: column;
+  overflow: visible;
+  padding-bottom: 8px;
+}
+
+.node:active {
+  cursor: grabbing;
+}
+
+.node.selected {
+  box-shadow: 0 0 0 3px rgba(114,86,173,.24), var(--shadow);
+  z-index: 100 !important;
+}
+
+.node.main {
+  border-width: 2px;
+  box-shadow: 0 10px 34px rgba(114,86,173,.17);
+}
+
+.node.question .node-title::before {
+  content: "?";
+  display: inline-grid;
+  place-items: center;
+  width: 18px;
+  height: 18px;
+  margin-right: 6px;
+  border-radius: 50%;
+  background: rgba(255,255,255,.66);
+  font-size: 12px;
+}
+
+.node.task .node-title::before {
+  content: "";
+  width: 14px;
+  height: 14px;
+  margin-right: 7px;
+  display: inline-block;
+  border-radius: 4px;
+  border: 1.8px solid currentColor;
+  opacity: .7;
+}
+
+.node-title {
+  display: flex;
+  align-items: center;
+  padding: 13px 14px 4px;
+  font-size: 14px;
+  font-weight: 790;
+  line-height: 1.2;
+  word-break: break-word;
+}
+
+.node-note {
+  padding: 4px 14px 6px;
+  color: color-mix(in srgb, currentColor 72%, transparent);
+  font-size: 12px;
+  line-height: 1.45;
+  word-break: break-word;
+  white-space: pre-wrap;
+  flex: 1;
+}
+
+.port {
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: transparent;
+  display: grid;
+  place-items: center;
+  opacity: .85;
+  z-index: 30;
+}
+
+.port::after {
+  content: "";
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: 2px solid #fff;
+  box-shadow: 0 0 0 1px rgba(114,86,173,.24);
+}
+
+.port.top { top: -13px; left: calc(50% - 12px); }
+.port.right { right: -13px; top: calc(50% - 12px); }
+.port.bottom { bottom: -13px; left: calc(50% - 12px); }
+.port.left { left: -13px; top: calc(50% - 12px); }
+
+.port:hover::after, .port.armed::after {
+  transform: scale(1.28);
+  background: var(--rose);
+}
+
+.resize-corner {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 24px;
+  height: 24px;
+  border-radius: 0 0 var(--node-radius) 0;
+  cursor: nwse-resize;
+  opacity: .48;
+  z-index: 10;
+}
+
+.resize-corner::after {
+  content: "";
+  position: absolute;
+  right: 6px;
+  bottom: 6px;
+  width: 6px;
+  height: 6px;
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+}
+
+.floating-bar {
+  position: absolute;
+  left: 74px;
+  bottom: 18px;
+  right: 330px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  pointer-events: none;
+  z-index: 24;
+}
+
+.chip-row, .zoom {
+  display: inline-flex;
+  gap: 6px;
+  align-items: center;
+  background: rgba(255,255,255,.92);
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  padding: 5px;
+  box-shadow: var(--shadow-soft);
+  pointer-events: auto;
+}
+
+.chip {
+  height: 30px;
+  padding: 0 10px;
+  border-radius: 6px;
+  color: var(--ink-soft);
+  background: transparent;
+  font-size: 12px;
+  font-weight: 750;
+}
+
+.chip.active {
+  color: var(--accent);
+  background: var(--plum-soft);
+}
+
+.zoom button {
+  width: 30px;
+  height: 30px;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--ink-soft);
+  font-size: 18px;
+}
+
+.zoom span {
+  min-width: 48px;
+  text-align: center;
+  color: var(--ink-soft);
+  font-size: 12px;
+  font-weight: 760;
+}
+
+.inspector {
+  width: 320px;
+  background: rgba(255,255,255,.94);
+  border-left: 1px solid var(--line);
+  z-index: 26;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.panel-head {
+  padding: 16px;
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.panel-title {
+  font-weight: 820;
+  flex: 1;
+}
+
+.panel-note {
+  color: var(--ink-faint);
+  font-size: 12px;
+  line-height: 1.35;
+}
+
+.panel-body {
+  padding: 16px;
+  overflow: auto;
+}
+
+.field {
+  margin-bottom: 14px;
+}
+
+.label {
+  display: block;
+  margin-bottom: 7px;
+  color: var(--ink-soft);
+  font-size: 11px;
+  font-weight: 820;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.input, .select, .textarea {
+  width: 100%;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--r);
+  background: #fff;
+  color: var(--ink);
+  outline: none;
+}
+
+.input, .select {
+  height: 42px;
+  padding: 0 11px;
+}
+
+.textarea {
+  min-height: 82px;
+  padding: 10px 11px;
+  resize: vertical;
+}
+
+.input:focus, .select:focus, .textarea:focus {
+  border-color: rgba(114,86,173,.55);
+  box-shadow: 0 0 0 3px rgba(114,86,173,.12);
+}
+
+.seg {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 5px;
+  padding: 4px;
+  background: var(--surface-soft);
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+}
+
+.seg button {
+  min-height: 34px;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--ink-soft);
+  font-size: 12px;
+  font-weight: 780;
+}
+
+.seg button.active {
+  background: #fff;
+  color: var(--ink);
+  box-shadow: var(--shadow-soft);
+}
+
+.swatches {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 7px;
+}
+
+.swatch {
+  height: 32px;
+  border-radius: var(--r);
+  border: 2px solid transparent;
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,.07);
+}
+
+.swatch.active {
+  border-color: var(--ink);
+}
+
+.range-line {
+  display: grid;
+  grid-template-columns: 1fr 58px;
+  gap: 9px;
+  align-items: center;
+}
+
+input[type="range"] {
+  accent-color: var(--accent);
+}
+
+.panel-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.panel-actions .wide {
+  grid-column: 1 / -1;
+}
+
+.danger-btn {
+  height: 38px;
+  border-radius: var(--r);
+  color: var(--danger);
+  background: var(--rose-soft);
+  border: 1px solid rgba(199,87,103,.24);
+  font-weight: 780;
+}
+
+.hint {
+  padding: 12px;
+  border: 1px dashed var(--line-strong);
+  border-radius: var(--r);
+  color: var(--ink-soft);
+  background: rgba(255,255,255,.56);
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.planner {
+  flex-direction: column;
+  min-height: 0;
+}
+
+.planner-top {
+  height: 58px;
+  padding: 0 18px;
+  border-bottom: 1px solid var(--line);
+  background: rgba(255,255,255,.9);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.month-title {
+  min-width: 180px;
+  font-size: 17px;
+  font-weight: 820;
+}
+
+.planner-body {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+}
+
+.planner-scroll {
+  flex: 1;
+  min-width: 0;
+  overflow: auto;
+  padding: 18px;
+}
+
+.side-panel {
+  width: 270px;
+  border-left: 1px solid var(--line);
+  background: rgba(255,255,255,.8);
+  padding: 16px;
+  overflow: auto;
+}
+
+.week-grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(138px, 1fr));
+  gap: 10px;
+}
+
+.day {
+  min-height: 330px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  overflow: hidden;
+}
+
+.day.today {
+  border-color: rgba(114,86,173,.42);
+  box-shadow: 0 0 0 2px rgba(114,86,173,.12);
+}
+
+.day-head {
+  padding: 12px;
+  border-bottom: 1px solid var(--line);
+}
+
+.day-name {
+  color: var(--ink-faint);
+  font-size: 10px;
+  font-weight: 820;
+  text-transform: uppercase;
+  letter-spacing: .12em;
+}
+
+.day-num {
+  margin-top: 4px;
+  font-size: 28px;
+  font-weight: 760;
+}
+
+.task-list {
+  padding: 9px;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.task {
+  min-height: 38px;
+  padding: 8px 9px;
+  border-radius: var(--r);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--task-bg);
+  color: var(--task-text);
+  border: 1px solid rgba(0,0,0,.04);
+  font-size: 12px;
+  font-weight: 720;
+}
+
+.task.done .task-name {
+  text-decoration: line-through;
+  opacity: .55;
+}
+
+.check {
+  width: 17px;
+  height: 17px;
+  border-radius: 5px;
+  border: 1.5px solid currentColor;
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+}
+
+.task.done .check {
+  background: currentColor;
+}
+
+.task.done .check::after {
+  content: "";
+  width: 7px;
+  height: 4px;
+  border-left: 1.6px solid #fff;
+  border-bottom: 1.6px solid #fff;
+  transform: rotate(-45deg) translateY(-1px);
+}
+
+.task-name {
+  flex: 1;
+  min-width: 0;
+  word-break: break-word;
+}
+
+.task-del {
+  color: currentColor;
+  opacity: .55;
+  background: transparent;
+  width: 24px;
+  height: 24px;
+}
+
+.day-add {
+  min-height: 34px;
+  border: 1px dashed var(--line-strong);
+  border-radius: var(--r);
+  background: transparent;
+  color: var(--ink-soft);
+  font-size: 12px;
+  font-weight: 740;
+}
+
+.month-grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(88px, 1fr));
+  gap: 8px;
+}
+
+.month-label {
+  text-align: center;
+  color: var(--ink-faint);
+  font-size: 10px;
+  font-weight: 820;
+  letter-spacing: .1em;
+}
+
+.month-cell {
+  min-height: 92px;
+  padding: 9px;
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  background: var(--surface);
+}
+
+.month-cell.today {
+  border-color: rgba(114,86,173,.42);
+  background: var(--plum-soft);
+}
+
+.month-cell.outside {
+  opacity: .35;
+}
+
+.month-date {
+  font-size: 12px;
+  font-weight: 820;
+  color: var(--ink-soft);
+}
+
+.dots {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 8px;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 3px;
+  background: var(--dot);
+}
+
+.agenda {
+  max-width: 780px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.agenda-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  overflow: hidden;
+}
+
+.agenda-date {
+  padding: 13px 15px;
+  border-bottom: 1px solid var(--line);
+  font-weight: 820;
+}
+
+.mini-cal {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+}
+
+.mini-cal div {
+  min-height: 28px;
+  display: grid;
+  place-items: center;
+  border-radius: 6px;
+  font-size: 11px;
+  color: var(--ink-soft);
+}
+
+.mini-cal .mini-label {
+  min-height: 20px;
+  color: var(--ink-faint);
+  font-size: 9px;
+  font-weight: 820;
+}
+
+.mini-cal .today {
+  color: #fff;
+  background: var(--accent);
+}
+
+.progress-track {
+  height: 8px;
+  background: var(--surface-soft);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  width: 0;
+  background: linear-gradient(90deg, var(--plum), var(--rose), var(--sage));
+  border-radius: inherit;
+}
+
+.modal-shade {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  display: none;
+  place-items: center;
+  padding: 18px;
+  background: rgba(33,27,36,.34);
+  backdrop-filter: blur(8px);
+}
+
+.modal-shade.show {
+  display: grid;
+}
+
+.modal {
+  width: min(460px, 100%);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  box-shadow: var(--shadow);
+  padding: 18px;
+}
+
+.modal h2 {
+  font-size: 18px;
+  margin-bottom: 14px;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 18px;
+}
+
+.modal-actions button {
+  flex: 1;
+}
+
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 18px;
+  transform: translateX(-50%) translateY(20px);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 100;
+  padding: 10px 13px;
+  border-radius: var(--r);
+  color: #fff;
+  background: rgba(33,27,36,.92);
+  font-size: 13px;
+  font-weight: 720;
+  transition: opacity .2s ease, transform .2s ease;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+.mobile-sheet-toggle {
+  display: none;
+}
+
+/* Wizard Modal Custom Segmented buttons */
+.wizard-seg {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+  margin-bottom: 14px;
+}
+.wizard-seg button {
+  height: 44px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--r);
+  background: #fff;
+  font-weight: 750;
+  font-size: 13px;
+  color: var(--ink-soft);
+}
+.wizard-seg button.active {
+  background: var(--plum-soft);
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+@media (max-width: 900px) {
+  .topbar {
+    height: auto;
+    min-height: 60px;
+    flex-wrap: wrap;
+    padding-top: max(8px, env(safe-area-inset-top));
+    padding-bottom: 8px;
+  }
+
+  .brand {
+    flex: 1;
+  }
+
+  .tabs {
+    order: 3;
+    width: 100%;
+  }
+
+  .tab {
+    flex: 1;
+  }
+
+  .hide-mobile {
+    display: none;
+  }
+
+  .toolrail {
+    position: absolute;
+    left: 8px;
+    top: 10px;
+    width: auto;
+    padding: 5px;
+    flex-direction: row;
+    border: 1px solid var(--line);
+    border-radius: var(--r);
+    box-shadow: var(--shadow-soft);
+  }
+
+  .tool {
+    width: 40px;
+    height: 40px;
+  }
+
+  .tool-sep {
+    display: none;
+  }
+
+  .inspector {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    max-height: 75dvh;
+    border-left: 0;
+    border-top: 1px solid var(--line);
+    border-radius: 14px 14px 0 0;
+    transform: translateY(100%);
+    transition: transform .24s cubic-bezier(0.1, 0.76, 0.55, 0.94);
+    box-shadow: 0 -14px 38px rgba(33,27,36,.14);
+  }
+
+  .inspector.open {
+    transform: translateY(0);
+  }
+
+  .panel-head {
+    min-height: 58px;
+    cursor: pointer;
+  }
+
+  .mobile-sheet-toggle {
+    display: inline-flex;
+  }
+
+  .floating-bar {
+    left: 8px;
+    right: 8px;
+    bottom: 24px;
+    align-items: flex-end;
+  }
+
+  .chip-row {
+    display: none;
+  }
+
+  .planner-body {
+    display: block;
+    overflow: auto;
+  }
+
+  .planner-scroll {
+    overflow: visible;
+    padding: 12px;
+  }
+
+  .side-panel {
+    display: none;
+  }
+
+  .planner-top {
+    height: auto;
+    min-height: 58px;
+    flex-wrap: wrap;
+    padding: 10px 12px;
+  }
+
+  .month-title {
+    flex: 1;
+    min-width: 130px;
+  }
+
+  .week-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .day {
+    min-height: auto;
+  }
+
+  .month-grid {
+    grid-template-columns: repeat(7, minmax(38px, 1fr));
+    gap: 4px;
+  }
+
+  .month-cell {
+    min-height: 54px;
+    padding: 6px;
+  }
+
+  .month-label {
+    font-size: 9px;
+  }
+}
+
+@media (max-width: 520px) {
+  .actions {
+    gap: 6px;
+  }
+
+  .dark-btn, .soft-btn {
+    padding: 0 10px;
+  }
+
+  .brand small {
+    display: none;
+  }
+
+  .swatches {
+    grid-template-columns: repeat(6, 1fr);
+  }
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="topbar">
+    <div class="brand" aria-label="Petal">
+      <div class="brand-mark"></div>
+      <div>
+        <div>Petal</div>
+        <small>Brainstorm & Planner</small>
+      </div>
+    </div>
+    <nav class="tabs" aria-label="Views">
+      <button class="tab active" data-view-button="brainstorm">Brainstorm</button>
+      <button class="tab" data-view-button="planner">Planner</button>
+    </nav>
+    <div class="actions">
+      <button class="icon-btn" id="importBtn" title="Import sheet" aria-label="Import sheet">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M12 3v12m0 0 4-4m-4 4-4-4M5 17v2a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <button class="icon-btn" id="downloadBtn" title="Download sheet" aria-label="Download sheet">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M12 21V9m0 12 4-4m-4 4-4-4M5 7V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <div class="transfer-menu" id="downloadMenu" role="menu">
+        <button class="menu-item" id="downloadSheetBtn" role="menuitem">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M14 3v4a2 2 0 0 0 2 2h4M5 3h9l6 6v12H5z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+          Sheet file
+        </button>
+        <button class="menu-item" id="downloadImageBtn" role="menuitem">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M4 5h16v14H4zM8 13l2.5-3 3 4 2-2.5L20 17M8 8h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Image
+        </button>
+      </div>
+      <button class="dark-btn" id="primaryAddBtn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"/></svg>
+        <span>Add</span>
+      </button>
+    </div>
+  </header>
+
+  <main class="view brainstorm active" id="brainstormView">
+    <aside class="toolrail" aria-label="Brainstorm tools">
+      <button class="tool active" id="selectTool" title="Move and select" aria-label="Move and select">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none"><path d="M5 3 19 12l-6.6 1.8L9 21 5 3Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      </button>
+      <button class="tool" id="connectTool" title="Connect blocks" aria-label="Connect blocks">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none"><path d="M7 12h10M5 12a2.5 2.5 0 1 0 0 .1M19 12a2.5 2.5 0 1 0 0 .1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+      <button class="tool" id="fitBtn" title="Fit view" aria-label="Fit view" style="margin-top:auto">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none"><path d="M4 9V4h5M15 4h5v5M20 15v5h-5M9 20H4v-5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+    </aside>
+
+    <section class="canvas-shell" id="canvasShell">
+      <div class="canvas-world" id="canvasWorld">
+        <svg class="connection-svg" id="connectionSvg" aria-hidden="true">
+          <defs>
+            <marker id="arrow" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto">
+              <path d="M1 1 L8 4.5 L1 8 Z" fill="#7256ad" opacity=".62"></path>
+            </marker>
+          </defs>
+          <g id="connectionLayer"></g>
+          <path id="draftConnection" fill="none" stroke="#7256ad" stroke-width="2" stroke-dasharray="7 6" opacity=".55" style="display:none"></path>
+        </svg>
+      </div>
+      <div class="floating-bar">
+        <div class="chip-row">
+          <button class="chip active" data-type-filter="all">All</button>
+          <button class="chip" data-type-filter="main">Main</button>
+          <button class="chip" data-type-filter="idea">Ideas</button>
+          <button class="chip" data-type-filter="task">Tasks</button>
+        </div>
+        <div class="zoom">
+          <button id="zoomOutBtn" aria-label="Zoom out">-</button>
+          <span id="zoomLabel">100%</span>
+          <button id="zoomInBtn" aria-label="Zoom in">+</button>
+        </div>
+      </div>
+    </section>
+
+    <aside class="inspector" id="inspector">
+      <div class="panel-head" id="sheetHandle">
+        <div>
+          <div class="panel-title" id="inspectorTitle">Block Studio</div>
+          <div class="panel-note" id="inspectorNote">Tap a block to edit style, size, and links.</div>
+        </div>
+        <button class="icon-btn mobile-sheet-toggle" id="sheetToggle" aria-label="Close editor">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="m6 15-6-6 6-6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+      <div class="panel-body" id="inspectorBody"></div>
+    </aside>
+  </main>
+
+  <main class="view planner" id="plannerView">
+    <div class="planner-top">
+      <button class="icon-btn" id="prevMonthBtn" aria-label="Previous month">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="m15 18-6-6 6-6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <div class="month-title" id="monthTitle"></div>
+      <button class="icon-btn" id="nextMonthBtn" aria-label="Next month">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="m9 6 6 6-6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <div class="tabs" style="margin-left:auto">
+        <button class="tab active" data-plan-view="week">Week</button>
+        <button class="tab" data-plan-view="month">Month</button>
+        <button class="tab" data-plan-view="agenda">List</button>
+      </div>
+      <button class="dark-btn" id="addTaskTopBtn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"/></svg>
+        Task
+      </button>
+    </div>
+    <div class="planner-body">
+      <section class="planner-scroll" id="plannerScroll"></section>
+      <aside class="side-panel">
+        <div class="field">
+          <span class="label">Calendar</span>
+          <div class="mini-cal" id="miniCal"></div>
+        </div>
+        <div class="field">
+          <span class="label">Monthly Progress</span>
+          <div class="panel-note" id="progressText">0 of 0 done</div>
+          <div class="progress-track" style="margin-top:10px"><div class="progress-fill" id="progressFill"></div></div>
+        </div>
+        <div class="field">
+          <span class="label">Filter</span>
+          <div class="seg" id="tagFilters">
+            <button class="active" data-tag="all">All</button>
+            <button data-tag="work">Work</button>
+            <button data-tag="life">Life</button>
+            <button data-tag="study">Study</button>
+            <button data-tag="health">Health</button>
+            <button data-tag="creative">Creative</button>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </main>
+</div>
+
+<div class="modal-shade" id="nodeWizardModal" role="dialog" aria-modal="true">
+  <div class="modal">
+    <h2 id="wizardStepTitle">Block Step 1: Select Type</h2>
+    <div id="wizardStep1">
+      <div class="wizard-seg" id="wizardTypeSeg">
+        <button data-wtype="main" class="active">Main Idea</button>
+        <button data-wtype="idea">Idea</button>
+        <button data-wtype="question">Question</button>
+        <button data-wtype="task">Task</button>
+      </div>
+      <div class="modal-actions">
+        <button class="soft-btn" id="closeWizardBtn">Cancel</button>
+        <button class="dark-btn" id="nextWizardBtn">Next</button>
+      </div>
+    </div>
+    <div id="wizardStep2" style="display:none">
+      <div class="field">
+        <span class="label">Select Color</span>
+        <div class="swatches" id="wizardColorChoices"></div>
+      </div>
+      <div class="field" style="margin-top:14px">
+        <label class="label" for="wizardTitleInput">Title</label>
+        <input class="input" id="wizardTitleInput" placeholder="What is your block about?">
+      </div>
+      <div class="modal-actions">
+        <button class="soft-btn" id="backWizardBtn">Back</button>
+        <button class="dark-btn" id="createWizardBtn">Create Block</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-shade" id="taskModal" role="dialog" aria-modal="true" aria-labelledby="taskModalTitle">
+  <div class="modal">
+    <h2 id="taskModalTitle">New Task</h2>
+    <div class="field">
+      <label class="label" for="taskName">Task</label>
+      <input class="input" id="taskName" placeholder="What needs to happen?">
+    </div>
+    <div class="field">
+      <label class="label" for="taskDate">Date</label>
+      <input class="input" type="date" id="taskDate">
+    </div>
+    <div class="field">
+      <label class="label" for="taskTag">Label</label>
+      <select class="select" id="taskTag">
+        <option value="work">Work</option>
+        <option value="life">Life</option>
+        <option value="study">Study</option>
+        <option value="health">Health</option>
+        <option value="creative">Creative</option>
+      </select>
+    </div>
+    <div class="field">
+      <span class="label">Color</span>
+      <div class="swatches" id="taskColorChoices"></div>
+    </div>
+    <div class="modal-actions">
+      <button class="soft-btn" id="cancelTaskBtn">Cancel</button>
+      <button class="dark-btn" id="saveTaskBtn">Save Task</button>
+    </div>
+  </div>
+</div>
+
+<input type="file" id="fileInput" accept="application/json,.json" hidden>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+(() => {
+  "use strict";
+  const STORAGE_KEY = "petal-planner-v2";
+  const colors = {
+    plum: { name: "Plum", bg: "#f0ebfa", line: "#c8b6ea", text: "#392964", stroke: "#8a6bc0" },
+    rose: { name: "Rose", bg: "#faedf1", line: "#e9a5b8", text: "#633241", stroke: "#d4748f" },
+    sage: { name: "Sage", bg: "#edf6f0", line: "#9bc5aa", text: "#2f563b", stroke: "#6fa582" },
+    sky: { name: "Sky", bg: "#edf6fc", line: "#9ac3e1", text: "#254d70", stroke: "#669bc4" },
+    honey: { name: "Honey", bg: "#fbf3e5", line: "#e2bd78", text: "#644115", stroke: "#c99042" },
+    clay: { name: "Clay", bg: "#fbefeb", line: "#e2a18f", text: "#693728", stroke: "#cf8069" }
+  };
+
+  const state = {
+    view: "brainstorm",
+    tool: "select",
+    plannerView: "week",
+    activeTag: "all",
+    month: startOfMonth(new Date()),
+    scale: 1,
+    pan: { x: 80, y: 68 },
+    nextNode: 1,
+    nextLink: 1,
+    nextTask: 1,
+    nodes: [],
+    links: [],
+    tasks: [],
+    selectedNode: null,
+    filterType: "all",
+    grid: true
+  };
+
+  const els = {
+    canvasShell: document.getElementById("canvasShell"),
+    canvasWorld: document.getElementById("canvasWorld"),
+    connectionLayer: document.getElementById("connectionLayer"),
+    draftConnection: document.getElementById("draftConnection"),
+    inspector: document.getElementById("inspector"),
+    inspectorBody: document.getElementById("inspectorBody"),
+    inspectorTitle: document.getElementById("inspectorTitle"),
+    inspectorNote: document.getElementById("inspectorNote"),
+    zoomLabel: document.getElementById("zoomLabel"),
+    plannerScroll: document.getElementById("plannerScroll"),
+    monthTitle: document.getElementById("monthTitle"),
+    miniCal: document.getElementById("miniCal"),
+    progressText: document.getElementById("progressText"),
+    progressFill: document.getElementById("progressFill"),
+    taskModal: document.getElementById("taskModal"),
+    taskName: document.getElementById("taskName"),
+    taskDate: document.getElementById("taskDate"),
+    taskTag: document.getElementById("taskTag"),
+    taskColorChoices: document.getElementById("taskColorChoices"),
+    downloadMenu: document.getElementById("downloadMenu"),
+    fileInput: document.getElementById("fileInput"),
+    toast: document.getElementById("toast"),
+    nodeWizardModal: document.getElementById("nodeWizardModal")
+  };
+
+  let drag = null;
+  let resize = null;
+  let panDrag = null;
+  let connectDraft = null;
+  let saveTimer = null;
+  let editingTask = null;
+  let taskColor = "plum";
+  
+  // Wizard Temp Memory
+  let wizardType = "main";
+  let wizardColor = "plum";
+
+  function isoDate(date) {
+    const copy = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 12);
+    return copy.toISOString().slice(0, 10);
+  }
+
+  function startOfMonth(date) {
+    return new Date(date.getFullYear(), date.getMonth(), 1);
+  }
+
+  function clamp(value, min, max) {
+    return Math.max(min, Math.min(max, value));
+  }
+
+  function escapeHtml(value) {
+    return String(value ?? "").replace(/[&<>"']/g, (ch) => ({
+      "&": "&amp;",
+      "<": "&lt;",
+      ">": "&gt;",
+      "\"": "&quot;",
+      "'": "&#39;"
+    }[ch]));
+  }
+
+  function uid(prefix, key) {
+    const value = state[key]++;
+    return `${prefix}-${value}`;
+  }
+
+  function centerCanvasPoint() {
+    const rect = els.canvasShell.getBoundingClientRect();
+    return {
+      x: (rect.width / 2 - state.pan.x) / state.scale,
+      y: (rect.height / 2 - state.pan.y) / state.scale
+    };
+  }
+
+  function saveSoon() {
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(saveNow, 160);
+  }
+
+  function saveNow() {
+    const snapshot = {
+      version: 2,
+      savedAt: new Date().toISOString(),
+      state: {
+        nextNode: state.nextNode,
+        nextLink: state.nextLink,
+        nextTask: state.nextTask,
+        nodes: state.nodes,
+        links: state.links,
+        tasks: state.tasks,
+        pan: state.pan,
+        scale: state.scale,
+        grid: state.grid
+      }
+    };
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(snapshot));
+  }
+
+  function loadSaved() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return false;
+      const parsed = JSON.parse(raw);
+      const saved = parsed.state || parsed;
+      state.nextNode = saved.nextNode || 1;
+      state.nextLink = saved.nextLink || 1;
+      state.nextTask = saved.nextTask || 1;
+      state.nodes = Array.isArray(saved.nodes) ? saved.nodes : [];
+      state.links = Array.isArray(saved.links) ? saved.links : [];
+      state.tasks = Array.isArray(saved.tasks) ? saved.tasks : [];
+      state.pan = saved.pan || state.pan;
+      state.scale = saved.scale || 1;
+      state.grid = saved.grid !== false;
+      return state.nodes.length || state.tasks.length;
+    } catch {
+      return false;
+    }
+  }
+
+  function seedData() {
+    const main = addNode({ type: "main", title: "Main Idea", note: "Start here, then connect anything from any side.", color: "plum", x: 80, y: 90, w: 220, h: 118, isCustomSize: true }, false);
+    const a = addNode({ type: "idea", title: "Direction A", note: "A possible branch.", color: "rose", x: 390, y: 42, w: 188, h: 100, isCustomSize: true }, false);
+    const b = addNode({ type: "question", title: "Question", note: "What needs proof?", color: "sky", x: 390, y: 190, w: 188, h: 100, isCustomSize: true }, false);
+    const c = addNode({ type: "task", title: "Next Action", note: "Turn this into a planner task.", color: "sage", x: 660, y: 116, w: 194, h: 104, isCustomSize: true }, false);
+    state.links.push({ id: uid("link", "nextLink"), from: main.id, fromPort: "right", to: a.id, toPort: "left" });
+    state.links.push({ id: uid("link", "nextLink"), from: main.id, fromPort: "right", to: b.id, toPort: "left" });
+    state.links.push({ id: uid("link", "nextLink"), from: b.id, fromPort: "bottom", to: c.id, toPort: "bottom" });
+    const today = isoDate(new Date());
+    const tomorrowDate = new Date();
+    tomorrowDate.setDate(tomorrowDate.getDate() + 1);
+    state.tasks.push(
+      { id: uid("task", "nextTask"), name: "Refine brainstorm map", date: today, tag: "creative", color: "plum", done: false },
+      { id: uid("task", "nextTask"), name: "Choose three next actions", date: today, tag: "work", color: "sage", done: true },
+      { id: uid("task", "nextTask"), name: "Review tomorrow plan", date: isoDate(tomorrowDate), tag: "life", color: "rose", done: false }
+    );
+  }
+
+  function addNode(overrides = {}, shouldRender = true) {
+    const center = centerCanvasPoint();
+    const node = {
+      id: overrides.id || uid("node", "nextNode"),
+      type: overrides.type || "idea",
+      title: overrides.title || "New Idea",
+      note: overrides.note || "",
+      color: overrides.color || "plum",
+      shape: overrides.shape || "soft",
+      x: overrides.x ?? center.x - 95,
+      y: overrides.y ?? center.y - 54,
+      w: overrides.w || 200,
+      h: overrides.h || 104,
+      z: overrides.z || state.nextNode,
+      isCustomSize: overrides.isCustomSize || false
+    };
+    state.nodes.push(node);
+    state.selectedNode = node.id;
+    if (shouldRender) {
+      renderAll();
+      openInspector();
+      saveSoon();
+    }
+    return node;
+  }
+
+  function selectedNode() {
+    return state.nodes.find((node) => node.id === state.selectedNode) || null;
+  }
+
+  function setView(view) {
+    state.view = view;
+    document.querySelectorAll(".view").forEach((el) => el.classList.remove("active"));
+    document.getElementById(view === "brainstorm" ? "brainstormView" : "plannerView").classList.add("active");
+    document.querySelectorAll("[data-view-button]").forEach((button) => {
+      button.classList.toggle("active", button.dataset.viewButton === view);
+    });
+    document.getElementById("primaryAddBtn").querySelector("span").textContent = view === "brainstorm" ? "Add" : "Task";
+    if (view === "planner") renderPlanner();
+  }
+
+  function setTool(tool) {
+    state.tool = tool;
+    connectDraft = null;
+    els.draftConnection.style.display = "none";
+    document.getElementById("selectTool").classList.toggle("active", tool === "select");
+    document.getElementById("connectTool").classList.toggle("active", tool === "connect");
+    toast(tool === "connect" ? "Tap a dot on one block, then a dot on another." : "Move mode");
+  }
+
+  function applyTransform() {
+    els.canvasWorld.style.transform = `translate(${state.pan.x}px, ${state.pan.y}px) scale(${state.scale})`;
+    els.zoomLabel.textContent = `${Math.round(state.scale * 100)}%`;
+  }
+
+  function renderAll() {
+    renderNodes();
+    drawLinks();
+    renderInspector();
+    applyTransform();
+  }
+
+  function renderNodes() {
+    // Keep reference of current element inside canvasWorld to prevent raw wiping
+    const oldNodes = els.canvasWorld.querySelectorAll("article.node");
+    oldNodes.forEach(n => n.remove());
+
+    const visible = state.nodes.filter((node) => state.filterType === "all" || node.type === state.filterType);
+    visible.forEach((node) => {
+      const color = colors[node.color] || colors.plum;
+      const el = document.createElement("article");
+      el.className = `node ${node.type} ${node.id === state.selectedNode ? "selected" : ""}`;
+      el.dataset.id = node.id;
+      el.style.setProperty("--node-bg", color.bg);
+      el.style.setProperty("--node-line", color.line);
+      el.style.setProperty("--node-text", color.text);
+      el.style.setProperty("--node-radius", node.shape === "sharp" ? "4px" : node.shape === "pill" ? "22px" : "8px");
+      el.style.left = `${node.x}px`;
+      el.style.top = `${node.y}px`;
+      
+      // Auto proportions adjustment unless user forced layout sizing
+      if (node.isCustomSize) {
+        el.style.width = `${node.w}px`;
+        el.style.height = `${node.h}px`;
+      } else {
+        el.style.width = `${node.w}px`;
+        el.style.height = "auto";
+      }
+      
+      el.style.zIndex = node.z || 1;
+      el.innerHTML = `
+        ${["top", "right", "bottom", "left"].map((port) => `<button class="port ${port}" data-port="${port}" aria-label="${port} connector"></button>`).join("")}
+        <div class="node-title">${escapeHtml(node.title || "Untitled")}</div>
+        <div class="node-note">${escapeHtml(node.note || "Tap to edit this block.")}</div>
+        <div class="resize-corner" aria-hidden="true"></div>
+      `;
+      els.canvasWorld.appendChild(el);
+      
+      // Dynamic Read of true proportions if auto-expanding
+      if (!node.isCustomSize) {
+        const bound = el.getBoundingClientRect();
+        node.h = Math.round(bound.height / state.scale);
+      }
+    });
+  }
+
+  function getNode(id) {
+    return state.nodes.find((node) => node.id === id);
+  }
+
+  function portPosition(nodeId, port) {
+    const node = getNode(nodeId);
+    if (!node) return { x: 0, y: 0 };
+    const cx = node.x + node.w / 2;
+    const cy = node.y + node.h / 2;
+    if (port === "top") return { x: cx, y: node.y };
+    if (port === "bottom") return { x: cx, y: node.y + node.h };
+    if (port === "left") return { x: node.x, y: cy };
+    return { x: node.x + node.w, y: cy };
+  }
+
+  function linkPath(a, b, fromPort, toPort) {
+    const dx = Math.abs(b.x - a.x);
+    const dy = Math.abs(b.y - a.y);
+    const strength = Math.max(44, Math.min(180, (dx + dy) * .28));
+    const c1 = { x: a.x, y: a.y };
+    const c2 = { x: b.x, y: b.y };
+    if (fromPort === "right") c1.x += strength;
+    if (fromPort === "left") c1.x -= strength;
+    if (fromPort === "bottom") c1.y += strength;
+    if (fromPort === "top") c1.y -= strength;
+    if (toPort === "right") c2.x += strength;
+    if (toPort === "left") c2.x -= strength;
+    if (toPort === "bottom") c2.y += strength;
+    if (toPort === "top") c2.y -= strength;
+    return `M ${a.x} ${a.y} C ${c1.x} ${c1.y}, ${c2.x} ${c2.y}, ${b.x} ${b.y}`;
+  }
+
+  function drawLinks() {
+    els.connectionLayer.innerHTML = "";
+    state.links.forEach((link) => {
+      const fromNode = getNode(link.from);
+      const toNode = getNode(link.to);
+      if (!fromNode || !toNode) return;
+      if (state.filterType !== "all" && (fromNode.type !== state.filterType || toNode.type !== state.filterType)) return;
+      
+      const color = colors[fromNode.color] || colors.plum;
+      // Using World Coordinates directly inside the scaled world layer
+      const a = portPosition(link.from, link.fromPort);
+      const b = portPosition(link.to, link.toPort);
+      
+      const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+      path.setAttribute("d", linkPath(a, b, link.fromPort, link.toPort));
+      path.setAttribute("fill", "none");
+      path.setAttribute("stroke", color.stroke);
+      path.setAttribute("stroke-width", "2.2");
+      path.setAttribute("stroke-linecap", "round");
+      path.setAttribute("opacity", ".78");
+      path.setAttribute("marker-end", "url(#arrow)");
+      els.connectionLayer.appendChild(path);
+      
+      // Increased touch target size for mobile link clearing
+      const hit = document.createElementNS("http://www.w3.org/2000/svg", "path");
+      hit.setAttribute("d", path.getAttribute("d"));
+      hit.setAttribute("fill", "none");
+      hit.setAttribute("stroke", "transparent");
+      hit.setAttribute("stroke-width", "24"); 
+      hit.style.pointerEvents = "stroke";
+      hit.style.cursor = "pointer";
+      
+      const clearLink = (e) => {
+        e.stopPropagation();
+        state.links = state.links.filter((item) => item.id !== link.id);
+        drawLinks();
+        saveSoon();
+        toast("Connection removed");
+      };
+      hit.addEventListener("pointerdown", clearLink);
+      els.connectionLayer.appendChild(hit);
+    });
+  }
+
+  function selectNode(id) {
+    state.selectedNode = id;
+    renderNodes();
+    drawLinks();
+    renderInspector();
+    if (id) {
+      openInspector();
+    } else {
+      closeInspector();
+    }
+  }
+
+  function updateSelected(patch) {
+    const node = selectedNode();
+    if (!node) return;
+    Object.assign(node, patch);
+    renderAll();
+    saveSoon();
+  }
+
+  function duplicateSelected() {
+    const node = selectedNode();
+    if (!node) return;
+    addNode({ ...node, id: undefined, x: node.x + 34, y: node.y + 34, z: state.nextNode + 1 }, true);
+    toast("Block duplicated");
+  }
+
+  function deleteSelected() {
+    const node = selectedNode();
+    if (!node) return;
+    state.links = state.links.filter((link) => link.from !== node.id && link.to !== node.id);
+    state.nodes = state.nodes.filter((item) => item.id !== node.id);
+    state.selectedNode = null;
+    renderAll();
+    saveSoon();
+    closeInspector();
+    toast("Block deleted");
+  }
+
+  function renderInspector() {
+    const node = selectedNode();
+    if (!node) {
+      els.inspectorTitle.textContent = "Block Studio";
+      els.inspectorNote.textContent = "Tap a block to edit style, size, and links.";
+      els.inspectorBody.innerHTML = `
+        <div class="hint">Use Add to create blocks, Connect to link any side to any side, and Download to save a copy of your whole sheet.</div>
+      `;
+      return;
+    }
+
+    els.inspectorTitle.textContent = "Edit Block";
+    els.inspectorNote.textContent = "Changes save automatically.";
+    els.inspectorBody.innerHTML = `
+      <div class="field">
+        <span class="label">Quick Palette</span>
+        <div class="swatches">
+          ${Object.entries(colors).map(([key, color]) => `<button class="swatch ${node.color === key ? "active" : ""}" data-node-color="${key}" title="${color.name}" style="background:${color.bg};border-color:${node.color === key ? color.stroke : "transparent"}"></button>`).join("")}
+        </div>
+      </div>
+      <div class="field">
+        <label class="label" for="nodeTitle">Text Contents</label>
+        <input class="input" id="nodeTitle" value="${escapeHtml(node.title)}" maxlength="72" placeholder="Title">
+        <textarea class="textarea" id="nodeNote" maxlength="360" style="margin-top:8px" placeholder="Add descriptions or thoughts...">${escapeHtml(node.note)}</textarea>
+      </div>
+      <div class="field">
+        <span class="label">Type</span>
+        <div class="seg" id="typeSeg">
+          ${["main", "idea", "question", "task"].map((type) => `<button class="${node.type === type ? "active" : ""}" data-node-type="${type}">${type}</button>`).join("")}
+        </div>
+      </div>
+      <div class="field">
+        <span class="label">Border Styling</span>
+        <div class="seg">
+          ${["soft", "sharp", "pill"].map((shape) => `<button class="${node.shape === shape ? "active" : ""}" data-node-shape="${shape}">${shape}</button>`).join("")}
+        </div>
+      </div>
+      <div class="field">
+        <span class="label">Manual Size Adjustment</span>
+        <div class="range-line">
+          <input type="range" min="140" max="420" value="${node.w}" id="nodeWidth">
+          <input class="input" value="${node.w}" id="nodeWidthText">
+        </div>
+      </div>
+      <div class="panel-actions" style="margin-top:18px">
+        <button class="soft-btn" id="duplicateNodeBtn">Duplicate</button>
+        <button class="soft-btn" id="bringFrontBtn">Front</button>
+        <button class="soft-btn wide" id="makeTaskBtn" style="margin-top:4px">Send to Planner</button>
+        <button class="danger-btn wide" id="deleteNodeBtn" style="margin-top:4px">Delete Block</button>
+      </div>
+    `;
+  }
+
+  function openInspector() {
+    els.inspector.classList.add("open");
+  }
+
+  function closeInspector() {
+    els.inspector.classList.remove("open");
+  }
+
+  function zoom(delta) {
+    const old = state.scale;
+    const next = clamp(old + delta, .24, 2.5);
+    const rect = els.canvasShell.getBoundingClientRect();
+    const cx = rect.width / 2;
+    const cy = rect.height / 2;
+    state.pan.x = cx - (cx - state.pan.x) * (next / old);
+    state.pan.y = cy - (cy - state.pan.y) * (next / old);
+    state.scale = next;
+    applyTransform();
+    drawLinks();
+    saveSoon();
+  }
+
+  function fitView() {
+    if (!state.nodes.length) return;
+    const rect = els.canvasShell.getBoundingClientRect();
+    const xs = state.nodes.map((node) => [node.x, node.x + node.w]).flat();
+    const ys = state.nodes.map((node) => [node.y, node.y + node.h]).flat();
+    const minX = Math.min(...xs);
+    const maxX = Math.max(...xs);
+    const minY = Math.min(...ys);
+    const maxY = Math.max(...ys);
+    const pad = 80;
+    const width = maxX - minX + pad * 2;
+    const height = maxY - minY + pad * 2;
+    state.scale = clamp(Math.min(rect.width / width, rect.height / height), .32, 1.8);
+    state.pan.x = (rect.width - (maxX - minX) * state.scale) / 2 - minX * state.scale;
+    state.pan.y = (rect.height - (maxY - minY) * state.scale) / 2 - minY * state.scale;
+    applyTransform();
+    drawLinks();
+    saveSoon();
+  }
+
+  function addConnection(from, fromPort, to, toPort) {
+    if (from === to) return;
+    const exists = state.links.some((link) => link.from === from && link.fromPort === fromPort && link.to === to && link.toPort === toPort);
+    if (exists) return;
+    state.links.push({ id: uid("link", "nextLink"), from, fromPort, to, toPort });
+    drawLinks();
+    saveSoon();
+    toast("Connected");
+  }
+
+  function pointerWorld(e) {
+    const rect = els.canvasShell.getBoundingClientRect();
+    return {
+      x: (e.clientX - rect.left - state.pan.x) / state.scale,
+      y: (e.clientY - rect.top - state.pan.y) / state.scale,
+      sx: e.clientX - rect.left,
+      sy: e.clientY - rect.top
+    };
+  }
+
+  function startDraft(nodeId, port, e) {
+    e.stopPropagation();
+    connectDraft = { nodeId, port };
+    document.querySelectorAll(".port").forEach((el) => el.classList.remove("armed"));
+    e.currentTarget.classList.add("armed");
+    const start = portPosition(nodeId, port);
+    els.draftConnection.setAttribute("d", `M ${start.x} ${start.y} L ${start.x} ${start.y}`);
+    els.draftConnection.style.display = "block";
+  }
+
+  function downloadJson() {
+    saveNow();
+    const payload = localStorage.getItem(STORAGE_KEY);
+    const blob = new Blob([payload], { type: "application/json" });
+    downloadBlob(blob, `petal-transfer-${isoDate(new Date())}.json`);
+    toast("Transfer file downloaded");
+  }
+
+  function downloadImage() {
+    const bounds = sheetBounds();
+    const svg = buildSnapshotSvg(bounds);
+    const blob = new Blob([svg], { type: "image/svg+xml" });
+    downloadBlob(blob, `petal-brainstorm-${isoDate(new Date())}.svg`);
+    toast("Image downloaded");
+  }
+
+  function downloadBlob(blob, name) {
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = name;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1200);
+  }
+
+  function sheetBounds() {
+    if (!state.nodes.length) return { x: 0, y: 0, w: 900, h: 620 };
+    const minX = Math.min(...state.nodes.map((node) => node.x)) - 60;
+    const minY = Math.min(...state.nodes.map((node) => node.y)) - 60;
+    const maxX = Math.max(...state.nodes.map((node) => node.x + node.w)) + 60;
+    const maxY = Math.max(...state.nodes.map((node) => node.y + node.h)) + 60;
+    return { x: minX, y: minY, w: maxX - minX, h: maxY - minY };
+  }
+
+  function wrapSvgText(text, x, y, maxChars, lineHeight, cls) {
+    const words = String(text || "").split(/\s+/).filter(Boolean);
+    const lines = [];
+    let line = "";
+    words.forEach((word) => {
+      const next = line ? `${line} ${word}` : word;
+      if (next.length > maxChars && line) {
+        lines.push(line);
+        line = word;
+      } else {
+        line = next;
+      }
+    });
+    if (line) lines.push(line);
+    return lines.slice(0, 5).map((value, index) => `<text class="${cls}" x="${x}" y="${y + index * lineHeight}">${escapeHtml(value)}</text>`).join("");
+  }
+
+  function buildSnapshotSvg(bounds) {
+    const links = state.links.map((link) => {
+      const from = getNode(link.from);
+      const to = getNode(link.to);
+      if (!from || !to) return "";
+      const color = colors[from.color] || colors.plum;
+      const a = portPosition(link.from, link.fromPort);
+      const b = portPosition(link.to, link.toPort);
+      const path = linkPath({ x: a.x - bounds.x, y: a.y - bounds.y }, { x: b.x - bounds.x, y: b.y - bounds.y }, link.fromPort, link.toPort);
+      return `<path d="${path}" fill="none" stroke="${color.stroke}" stroke-width="2.4" stroke-linecap="round" marker-end="url(#arrowSnap)" opacity=".72"/>`;
+    }).join("");
+    const nodes = state.nodes.map((node) => {
+      const color = colors[node.color] || colors.plum;
+      const radius = node.shape === "sharp" ? 4 : node.shape === "pill" ? 22 : 8;
+      const x = node.x - bounds.x;
+      const y = node.y - bounds.y;
+      const maxChars = Math.max(12, Math.floor((node.w - 28) / 7));
+      return `
+        <g>
+          <rect x="${x}" y="${y}" width="${node.w}" height="${node.h}" rx="${radius}" fill="${color.bg}" stroke="${color.line}" stroke-width="${node.type === "main" ? 2.2 : 1.6}"/>
+          ${wrapSvgText(node.title, x + 14, y + 25, maxChars, 16, "title")}
+          ${wrapSvgText(node.note, x + 14, y + 50, maxChars + 5, 15, "note")}
+        </g>
+      `;
+    }).join("");
+    return `<svg xmlns="http://www.w3.org/2000/svg" width="${Math.ceil(bounds.w)}" height="${Math.ceil(bounds.h)}" viewBox="0 0 ${Math.ceil(bounds.w)} ${Math.ceil(bounds.h)}">
+      <defs><marker id="arrowSnap" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M1 1 L8 4.5 L1 8 Z" fill="#7256ad" opacity=".62"/></marker></defs>
+      <style>.title{font:700 14px system-ui,sans-serif;fill:#211b24}.note{font:12px system-ui,sans-serif;fill:#6f6574}</style>
+      <rect width="100%" height="100%" fill="#fbfaf7"/>
+      ${links}
+      ${nodes}
+    </svg>`;
+  }
+
+  function importFile(file) {
+    const reader = new FileReader();
+    reader.onload = () => {
+      try {
+        const parsed = JSON.parse(reader.result);
+        const saved = parsed.state || parsed;
+        state.nodes = Array.isArray(saved.nodes) ? saved.nodes : [];
+        state.links = Array.isArray(saved.links) ? saved.links : [];
+        state.tasks = Array.isArray(saved.tasks) ? saved.tasks : [];
+        state.nextNode = saved.nextNode || state.nodes.length + 1;
+        state.nextLink = saved.nextLink || state.links.length + 1;
+        state.nextTask = saved.nextTask || state.tasks.length + 1;
+        state.pan = saved.pan || state.pan;
+        state.scale = saved.scale || state.scale;
+        state.grid = saved.grid !== false;
+        saveNow();
+        renderAll();
+        renderPlanner();
+        toast("Sheet imported");
+      } catch {
+        toast("Could not import this file");
+      }
+    };
+    reader.readAsText(file);
+  }
+
+  function renderPlanner() {
+    els.monthTitle.textContent = state.month.toLocaleDateString(undefined, { month: "long", year: "numeric" });
+    document.querySelectorAll("[data-plan-view]").forEach((button) => button.classList.toggle("active", button.dataset.planView === state.plannerView));
+    renderMiniCal();
+    renderProgress();
+    els.plannerScroll.innerHTML = "";
+    if (state.plannerView === "week") renderWeek();
+    if (state.plannerView === "month") renderMonth();
+    if (state.plannerView === "agenda") renderAgenda();
+  }
+
+  function filteredTasks() {
+    return state.tasks.filter((task) => state.activeTag === "all" || task.tag === state.activeTag);
+  }
+
+  function renderWeek() {
+    const today = new Date();
+    const start = new Date(today);
+    start.setDate(today.getDate() - today.getDay());
+    const grid = document.createElement("div");
+    grid.className = "week-grid";
+    for (let i = 0; i < 7; i++) {
+      const day = new Date(start);
+      day.setDate(start.getDate() + i);
+      const date = isoDate(day);
+      const box = document.createElement("section");
+      box.className = `day ${date === isoDate(today) ? "today" : ""}`;
+      box.innerHTML = `
+        <div class="day-head">
+          <div class="day-name">${day.toLocaleDateString(undefined, { weekday: "short" })}</div>
+          <div class="day-num">${day.getDate()}</div>
+        </div>
+        <div class="task-list">
+          ${filteredTasks().filter((task) => task.date === date).map(taskHtml).join("")}
+          <button class="day-add" data-add-task-date="${date}">Add task</button>
+        </div>
+      `;
+      grid.appendChild(box);
+    }
+    els.plannerScroll.appendChild(grid);
+  }
+
+  function renderMonth() {
+    const year = state.month.getFullYear();
+    const month = state.month.getMonth();
+    const first = new Date(year, month, 1).getDay();
+    const days = new Date(year, month + 1, 0).getDate();
+    const today = isoDate(new Date());
+    const grid = document.createElement("div");
+    grid.className = "month-grid";
+    ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].forEach((day) => {
+      const label = document.createElement("div");
+      label.className = "month-label";
+      label.textContent = day;
+      grid.appendChild(label);
+    });
+    for (let i = 0; i < first; i++) {
+      const empty = document.createElement("div");
+      empty.className = "month-cell outside";
+      grid.appendChild(empty);
+    }
+    for (let d = 1; d <= days; d++) {
+      const dateObj = new Date(year, month, d);
+      const date = isoDate(dateObj);
+      const tasks = filteredTasks().filter((task) => task.date === date);
+      const cell = document.createElement("button");
+      cell.className = `month-cell ${date === today ? "today" : ""}`;
+      cell.dataset.addTaskDate = date;
+      cell.innerHTML = `<div class="month-date">${d}</div><div class="dots">${tasks.slice(0, 8).map((task) => `<span class="dot" style="--dot:${colors[task.color]?.stroke || colors.plum.stroke}"></span>`).join("")}</div>`;
+      grid.appendChild(cell);
+    }
+    els.plannerScroll.appendChild(grid);
+  }
+
+  function renderAgenda() {
+    const wrap = document.createElement("div");
+    wrap.className = "agenda";
+    const groups = {};
+    filteredTasks().forEach((task) => {
+      const key = task.date || "No date";
+      groups[key] ||= [];
+      groups[key].push(task);
+    });
+    const keys = Object.keys(groups).sort();
+    if (!keys.length) {
+      wrap.innerHTML = `<div class="hint">No tasks yet. Add one from the top button.</div>`;
+    }
+    keys.forEach((key) => {
+      const section = document.createElement("section");
+      section.className = "agenda-card";
+      const label = key === "No date" ? key : new Date(`${key}T12:00:00`).toLocaleDateString(undefined, { weekday: "long", month: "long", day: "numeric" });
+      section.innerHTML = `<div class="agenda-date">${label}</div><div class="task-list">${groups[key].map(taskHtml).join("")}</div>`;
+      wrap.appendChild(section);
+    });
+    els.plannerScroll.appendChild(wrap);
+  }
+
+  function taskHtml(task) {
+    const color = colors[task.color] || colors.plum;
+    return `
+      <div class="task ${task.done ? "done" : ""}" style="--task-bg:${color.bg};--task-text:${color.text}">
+        <button class="check" data-toggle-task="${task.id}" aria-label="Toggle task"></button>
+        <div class="task-name">${escapeHtml(task.name)}</div>
+        <button class="task-del" data-delete-task="${task.id}" aria-label="Delete task">x</button>
+      </div>
+    `;
+  }
+
+  function renderMiniCal() {
+    const year = state.month.getFullYear();
+    const month = state.month.getMonth();
+    const first = new Date(year, month, 1).getDay();
+    const days = new Date(year, month + 1, 0).getDate();
+    const today = isoDate(new Date());
+    let html = ["S", "M", "T", "W", "T", "F", "S"].map((label) => `<div class="mini-label">${label}</div>`).join("");
+    for (let i = 0; i < first; i++) html += "<div></div>";
+    for (let d = 1; d <= days; d++) {
+      const date = isoDate(new Date(year, month, d));
+      html += `<div class="${date === today ? "today" : ""}">${d}</div>`;
+    }
+    els.miniCal.innerHTML = html;
+  }
+
+  function renderProgress() {
+    const year = state.month.getFullYear();
+    const month = state.month.getMonth();
+    const monthTasks = state.tasks.filter((task) => {
+      if (!task.date) return false;
+      const date = new Date(`${task.date}T12:00:00`);
+      return date.getFullYear() === year && date.getMonth() === month;
+    });
+    const done = monthTasks.filter((task) => task.done).length;
+    const pct = monthTasks.length ? Math.round(done / monthTasks.length * 100) : 0;
+    els.progressText.textContent = `${done} of ${monthTasks.length} done`;
+    els.progressFill.style.width = `${pct}%`;
+  }
+
+  function openWizard() {
+    wizardType = "main";
+    wizardColor = "plum";
+    document.getElementById("wizardTitleInput").value = "";
+    
+    // Reset wizard view state
+    document.getElementById("wizardStepTitle").textContent = "Block Step 1: Select Type";
+    document.getElementById("wizardStep1").style.display = "block";
+    document.getElementById("wizardStep2").style.display = "none";
+    
+    // Toggle active classes inside wizard segment
+    document.querySelectorAll("#wizardTypeSeg button").forEach(b => {
+      b.classList.toggle("active", b.dataset.wtype === wizardType);
+    });
+    
+    renderWizardColors();
+    els.nodeWizardModal.classList.add("show");
+  }
+
+  function renderWizardColors() {
+    const container = document.getElementById("wizardColorChoices");
+    container.innerHTML = Object.entries(colors).map(([key, color]) => `<button class="swatch ${wizardColor === key ? "active" : ""}" data-wcolor="${key}" title="${color.name}" style="background:${color.bg};border-color:${wizardColor === key ? color.stroke : "transparent"}"></button>`).join("");
+  }
+
+  function openTaskModal(date = isoDate(new Date()), sourceNode = null) {
+    editingTask = null;
+    els.taskName.value = sourceNode?.title || "";
+    els.taskDate.value = date;
+    els.taskTag.value = sourceNode?.type === "task" ? "work" : "life";
+    taskColor = sourceNode?.color || "plum";
+    renderTaskColors();
+    els.taskModal.classList.add("show");
+    setTimeout(() => els.taskName.focus(), 60);
+  }
+
+  function closeTaskModal() {
+    els.taskModal.classList.remove("show");
+  }
+
+  function renderTaskColors() {
+    els.taskColorChoices.innerHTML = Object.entries(colors).map(([key, color]) => `<button class="swatch ${taskColor === key ? "active" : ""}" data-task-color="${key}" title="${color.name}" style="background:${color.bg};border-color:${taskColor === key ? color.stroke : "transparent"}"></button>`).join("");
+  }
+
+  function saveTask() {
+    const name = els.taskName.value.trim();
+    if (!name) return;
+    state.tasks.push({
+      id: uid("task", "nextTask"),
+      name,
+      date: els.taskDate.value || isoDate(new Date()),
+      tag: els.taskTag.value,
+      color: taskColor,
+      done: false
+    });
+    closeTaskModal();
+    renderPlanner();
+    saveSoon();
+    toast("Task saved");
+  }
+
+  function toast(message) {
+    els.toast.textContent = message;
+    els.toast.classList.add("show");
+    clearTimeout(toast.timer);
+    toast.timer = setTimeout(() => els.toast.classList.remove("show"), 1800);
+  }
+
+  function attachEvents() {
+    document.querySelectorAll("[data-view-button]").forEach((button) => button.addEventListener("click", () => setView(button.dataset.viewButton)));
+    
+    document.getElementById("primaryAddBtn").addEventListener("click", () => {
+      if (state.view === "brainstorm") openWizard();
+      else openTaskModal();
+    });
+
+    // Wizard Workflow Navigation
+    document.getElementById("wizardTypeSeg").addEventListener("click", (e) => {
+      const btn = e.target.closest("button");
+      if (!btn) return;
+      wizardType = btn.dataset.wtype;
+      document.querySelectorAll("#wizardTypeSeg button").forEach(b => b.classList.toggle("active", b === btn));
+    });
+
+    document.getElementById("wizardColorChoices").addEventListener("click", (e) => {
+      const btn = e.target.closest("button");
+      if (!btn) return;
+      wizardColor = btn.dataset.wcolor;
+      renderWizardColors();
+    });
+
+    document.getElementById("nextWizardBtn").addEventListener("click", () => {
+      document.getElementById("wizardStepTitle").textContent = "Block Step 2: Custom details";
+      document.getElementById("wizardStep1").style.display = "none";
+      document.getElementById("wizardStep2").style.display = "block";
+      setTimeout(() => document.getElementById("wizardTitleInput").focus(), 60);
+    });
+
+    document.getElementById("backWizardBtn").addEventListener("click", () => {
+      document.getElementById("wizardStepTitle").textContent = "Block Step 1: Select Type";
+      document.getElementById("wizardStep1").style.display = "block";
+      document.getElementById("wizardStep2").style.display = "none";
+    });
+
+    document.getElementById("closeWizardBtn").addEventListener("click", () => {
+      els.nodeWizardModal.classList.remove("show");
+    });
+
+    document.getElementById("createWizardBtn").addEventListener("click", () => {
+      const title = document.getElementById("wizardTitleInput").value.trim();
+      addNode({
+        type: wizardType,
+        title: title || ("New " + wizardType.charAt(0).toUpperCase() + wizardType.slice(1)),
+        color: wizardColor,
+        isCustomSize: false // Automatically sets proportional sizing relative to text inputs
+      });
+      els.nodeWizardModal.classList.remove("show");
+    });
+
+    document.getElementById("selectTool").addEventListener("click", () => setTool("select"));
+    document.getElementById("connectTool").addEventListener("click", () => setTool("connect"));
+    document.getElementById("fitBtn").addEventListener("click", fitView);
+    document.getElementById("zoomInBtn").addEventListener("click", () => zoom(.12));
+    document.getElementById("zoomOutBtn").addEventListener("click", () => zoom(-.12));
+    
+    document.getElementById("downloadBtn").addEventListener("click", (e) => {
+      e.stopPropagation();
+      els.downloadMenu.classList.toggle("show");
+    });
+    document.getElementById("downloadSheetBtn").addEventListener("click", () => {
+      els.downloadMenu.classList.remove("show");
+      downloadJson();
+    });
+    document.getElementById("downloadImageBtn").addEventListener("click", () => {
+      els.downloadMenu.classList.remove("show");
+      downloadImage();
+    });
+    document.getElementById("importBtn").addEventListener("click", () => els.fileInput.click());
+    els.fileInput.addEventListener("change", () => {
+      if (els.fileInput.files[0]) importFile(els.fileInput.files[0]);
+      els.fileInput.value = "";
+    });
+
+    // Close on mobile back/toggle action
+    document.getElementById("sheetToggle").addEventListener("click", (e) => {
+      e.stopPropagation();
+      closeInspector();
+    });
+
+    els.canvasWorld.addEventListener("pointerdown", (e) => {
+      const nodeEl = e.target.closest(".node");
+      if (!nodeEl) return;
+      const node = getNode(nodeEl.dataset.id);
+      if (!node) return;
+      
+      if (e.target.closest(".port")) {
+        if (state.tool !== "connect") setTool("connect");
+        startDraft(node.id, e.target.closest(".port").dataset.port, e);
+        return;
+      }
+      
+      // Auto-fallback mechanics from Connect to Move Mode when clicking nodes
+      if (state.tool === "connect") {
+        setTool("select");
+        selectNode(node.id);
+        return;
+      }
+
+      if (e.target.closest(".resize-corner")) {
+        node.isCustomSize = true; // Enforces tracking standard locks if manual adjust triggers
+        resize = { node, startX: e.clientX, startY: e.clientY, w: node.w, h: node.h };
+        nodeEl.setPointerCapture(e.pointerId);
+        e.preventDefault();
+        return;
+      }
+
+      selectNode(node.id);
+      node.z = ++state.nextNode;
+      const point = pointerWorld(e);
+      drag = { node, offsetX: point.x - node.x, offsetY: point.y - node.y, pointerId: e.pointerId };
+      nodeEl.setPointerCapture(e.pointerId);
+      e.preventDefault();
+    });
+
+    els.canvasShell.addEventListener("pointerdown", (e) => {
+      if (e.target.closest(".node") || e.target.closest(".toolrail") || e.target.closest(".floating-bar") || e.target.closest(".modal-shade")) return;
+      
+      // Dynamic fallback mechanics when clicking open areas
+      if (state.tool === "connect") {
+        setTool("select");
+        return;
+      }
+      
+      if (state.tool === "select") {
+        panDrag = { startX: e.clientX, startY: e.clientY, x: state.pan.x, y: state.pan.y, pointerId: e.pointerId };
+        els.canvasShell.setPointerCapture(e.pointerId);
+      }
+      selectNode(null);
+    });
+
+    window.addEventListener("pointermove", (e) => {
+      if (drag) {
+        const point = pointerWorld(e);
+        drag.node.x = point.x - drag.offsetX;
+        drag.node.y = point.y - drag.offsetY;
+        renderNodes();
+        drawLinks();
+      } else if (resize) {
+        // Enforcing safety clamps on minimum proportions to stop flooding bugs
+        resize.node.w = clamp(resize.w + (e.clientX - resize.startX) / state.scale, 140, 480);
+        resize.node.h = clamp(resize.h + (e.clientY - resize.startY) / state.scale, 80, 400);
+        renderNodes();
+        drawLinks();
+        renderInspector();
+      } else if (panDrag) {
+        state.pan.x = panDrag.x + e.clientX - panDrag.startX;
+        state.pan.y = panDrag.y + e.clientY - panDrag.startY;
+        applyTransform();
+      } else if (connectDraft) {
+        const start = portPosition(connectDraft.nodeId, connectDraft.port);
+        const point = pointerWorld(e);
+        els.draftConnection.setAttribute("d", `M ${start.x} ${start.y} L ${point.x} ${point.y}`);
+      }
+    }, { passive: false });
+
+    window.addEventListener("pointerup", (e) => {
+      if (drag || resize || panDrag) saveSoon();
+      drag = null;
+      resize = null;
+      panDrag = null;
+      if (connectDraft) {
+        const target = document.elementFromPoint(e.clientX, e.clientY)?.closest(".port");
+        if (target) {
+          const nodeEl = target.closest(".node");
+          addConnection(connectDraft.nodeId, connectDraft.port, nodeEl.dataset.id, target.dataset.port);
+        }
+        connectDraft = null;
+        els.draftConnection.style.display = "none";
+        document.querySelectorAll(".port").forEach((el) => el.classList.remove("armed"));
+        setTool("select"); // Drops straight into select layout once path closes
+      }
+    });
+
+    els.canvasShell.addEventListener("wheel", (e) => {
+      e.preventDefault();
+      zoom(e.deltaY > 0 ? -.08 : .08);
+    }, { passive: false });
+
+    els.inspectorBody.addEventListener("input", (e) => {
+      const node = selectedNode();
+      if (!node) return;
+      if (e.target.id === "nodeTitle") {
+        node.title = e.target.value;
+        renderNodes();
+        drawLinks();
+        saveSoon();
+      }
+      if (e.target.id === "nodeNote") {
+        node.note = e.target.value;
+        renderNodes();
+        drawLinks();
+        saveSoon();
+      }
+      if (e.target.id === "nodeWidth" || e.target.id === "nodeWidthText") {
+        node.w = clamp(Number(e.target.value) || node.w, 140, 480);
+        node.isCustomSize = true;
+        const range = document.getElementById("nodeWidth");
+        const text = document.getElementById("nodeWidthText");
+        if (range && range !== e.target) range.value = node.w;
+        if (text && text !== e.target) text.value = node.w;
+        renderNodes();
+        drawLinks();
+        saveSoon();
+      }
+    });
+
+    els.inspectorBody.addEventListener("click", (e) => {
+      const type = e.target.closest("[data-node-type]");
+      if (type) updateSelected({ type: type.dataset.nodeType });
+      const shape = e.target.closest("[data-node-shape]");
+      if (shape) updateSelected({ shape: shape.dataset.nodeShape });
+      const color = e.target.closest("[data-node-color]");
+      if (color) updateSelected({ color: color.dataset.nodeColor });
+      
+      if (e.target.closest("#duplicateNodeBtn")) duplicateSelected();
+      if (e.target.closest("#deleteNodeBtn")) deleteSelected();
+      if (e.target.closest("#bringFrontBtn")) {
+        const node = selectedNode();
+        if (node) updateSelected({ z: ++state.nextNode });
+      }
+      if (e.target.closest("#makeTaskBtn")) {
+        const node = selectedNode();
+        if (node) openTaskModal(isoDate(new Date()), node);
+      }
+    });
+
+    document.querySelectorAll("[data-type-filter]").forEach((button) => {
+      button.addEventListener("click", () => {
+        state.filterType = button.dataset.typeFilter;
+        document.querySelectorAll("[data-type-filter]").forEach((item) => item.classList.toggle("active", item === button));
+        renderAll();
+      });
+    });
+
+    document.getElementById("prevMonthBtn").addEventListener("click", () => {
+      state.month = new Date(state.month.getFullYear(), state.month.getMonth() - 1, 1);
+      renderPlanner();
+    });
+    document.getElementById("nextMonthBtn").addEventListener("click", () => {
+      state.month = new Date(state.month.getFullYear(), state.month.getMonth() + 1, 1);
+      renderPlanner();
+    });
+    document.getElementById("addTaskTopBtn").addEventListener("click", () => openTaskModal());
+    document.querySelectorAll("[data-plan-view]").forEach((button) => button.addEventListener("click", () => {
+      state.plannerView = button.dataset.planView;
+      renderPlanner();
+    }));
+
+    document.getElementById("tagFilters").addEventListener("click", (e) => {
+      const button = e.target.closest("[data-tag]");
+      if (!button) return;
+      state.activeTag = button.dataset.tag;
+      document.querySelectorAll("[data-tag]").forEach((item) => item.classList.toggle("active", item === button));
+      renderPlanner();
+    });
+
+    els.plannerScroll.addEventListener("click", (e) => {
+      const addDate = e.target.closest("[data-add-task-date]");
+      if (addDate) openTaskModal(addDate.dataset.addTaskDate);
+      const toggle = e.target.closest("[data-toggle-task]");
+      if (toggle) {
+        const task = state.tasks.find((item) => item.id === toggle.dataset.toggleTask);
+        if (task) task.done = !task.done;
+        renderPlanner();
+        saveSoon();
+      }
+      const del = e.target.closest("[data-delete-task]");
+      if (del) {
+        state.tasks = state.tasks.filter((item) => item.id !== del.dataset.deleteTask);
+        renderPlanner();
+        saveSoon();
+      }
+    });
+
+    els.taskColorChoices.addEventListener("click", (e) => {
+      const button = e.target.closest("[data-task-color]");
+      if (!button) return;
+      taskColor = button.dataset.taskColor;
+      renderTaskColors();
+    });
+
+    document.getElementById("cancelTaskBtn").addEventListener("click", closeTaskModal);
+    document.getElementById("saveTaskBtn").addEventListener("click", saveTask);
+    
+    // Background light tap drops modal shades
+    els.taskModal.addEventListener("click", (e) => {
+      if (e.target === els.taskModal) closeTaskModal();
+    });
+    els.nodeWizardModal.addEventListener("click", (e) => {
+      if (e.target === els.nodeWizardModal) els.nodeWizardModal.classList.remove("show");
+    });
+
+    els.taskName.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") saveTask();
+    });
+
+    window.addEventListener("keydown", (e) => {
+      if (["INPUT", "TEXTAREA", "SELECT"].includes(document.activeElement.tagName)) return;
+      if (e.key === "Escape") {
+        setTool("select");
+        closeTaskModal();
+        closeInspector();
+        els.nodeWizardModal.classList.remove("show");
+      }
+      if ((e.key === "Delete" || e.key === "Backspace") && state.selectedNode) deleteSelected();
+      if (e.key.toLowerCase() === "n" && state.view === "brainstorm") openWizard();
+      if (e.key.toLowerCase() === "c" && state.view === "brainstorm") setTool("connect");
+      if (e.key.toLowerCase() === "s" && state.view === "brainstorm") setTool("select");
+      if (e.key.toLowerCase() === "f" && state.view === "brainstorm") fitView();
+    });
+
+    document.addEventListener("click", (e) => {
+      if (!e.target.closest("#downloadMenu") && !e.target.closest("#downloadBtn")) {
+        els.downloadMenu.classList.remove("show");
+      }
+    });
+
+    window.addEventListener("resize", () => {
+      drawLinks();
+    });
+  }
+
+  function init() {
+    if (!loadSaved()) seedData();
+    attachEvents();
+    renderTaskColors();
+    renderAll();
+    renderPlanner();
+    saveSoon();
+  }
+
+  init();
+})();
+</script>
+</body>
+</html>
